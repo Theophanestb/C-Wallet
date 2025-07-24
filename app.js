@@ -130,6 +130,48 @@ function handleFileSelect(event) {
   reader.readAsDataURL(file);
 }
 
+function openCamera() {
+  const cameraInput = document.createElement('input');
+  cameraInput.type = 'file';
+  cameraInput.accept = 'image/*';
+  cameraInput.capture = 'environment';
+  cameraInput.style.display = 'none';
+  document.body.appendChild(cameraInput);
+  cameraInput.onchange = function(event) {
+    const file = event.target.files[0];
+    if (!file) {
+      cameraInput.remove();
+      return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Le fichier est trop volumineux. Taille maximum: 10MB");
+      cameraInput.remove();
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const base64 = e.target.result;
+      saveDocument('identity', {
+        id: Date.now().toString(),
+        name: 'Photo_' + new Date().toISOString().replace(/[:.]/g, '_') + '.jpg',
+        type: file.type,
+        size: file.size,
+        data: base64,
+        dateAdded: new Date().toISOString()
+      });
+      loadIdentityDocuments();
+      showNotification("Photo ajoutée avec succès!", "success");
+      cameraInput.remove();
+    };
+    reader.onerror = function() {
+      alert("Erreur lors de la lecture de la photo");
+      cameraInput.remove();
+    };
+    reader.readAsDataURL(file);
+  };
+  cameraInput.click();
+}
+
 // Sauvegarde des documents par catégorie
 function saveDocument(category, document) {
   const key = 'cw_docs_' + category;

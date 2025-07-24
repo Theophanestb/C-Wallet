@@ -160,6 +160,10 @@
             <i class="fas fa-upload mr-2"></i>
             Choisir un fichier
           </button>
+          <button onclick="openCamera()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors mb-4">
+            <i class="fas fa-camera mr-2"></i>
+            Prendre une photo
+          </button>
           
           <div class="text-xs text-gray-400 text-center">
             Formats acceptés: PDF, JPG, PNG
@@ -173,27 +177,5 @@
       </div>
     </div>
 
-    <!-- Modal QR Code -->
-    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-bold text-gray-800">📱 QR Code Mobile</h3>
-          <button onclick="closeQRCode()" class="text-gray-500 hover:text-gray-700">
-            <i class="fas fa-times text-xl"></i>
-          </button>
-        </div>
-        
-        <div id="qrContainer" class="text-center">
-          <div id="qrLoading" class="text-blue-600 mb-4">⏳ Génération...</div>
-          <div id="qrContent"></div>
-          <div id="qrUrl" class="mt-4 p-3 bg-gray-100 rounded text-sm font-mono break-all"></div>
-          <div class="mt-4 text-sm text-gray-600">
-            <p><strong>Instructions :</strong></p>
-            <p>1. Scannez le QR avec votre téléphone</p>
-            <p>2. Installez l'app ("Ajouter à l'écran d'accueil")</p>
-          </div>
-        </div>
-      </div>
-    </div>
   </body>
 </html>
