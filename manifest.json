@@ -1,0 +1,57 @@
+{
+  "name": "C-Wallet - Documents Personnels",
+  "short_name": "C-Wallet",
+  "description": "Application de gestion de documents personnels - Stockage local sécurisé",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#667eea",
+  "theme_color": "#2563eb",
+  "categories": ["productivity", "utilities", "business"],
+  "lang": "fr",
+  "scope": "./",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Mon identité",
+      "short_name": "Identité",
+      "description": "Accès rapide aux documents d'identité",
+      "url": "./?category=identity",
+      "icons": [
+        {
+          "src": "https://cdn-icons-png.flaticon.com/128/2956/2956744.png",
+          "sizes": "128x128"
+        }
+      ]
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2956/2956744.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2956/2956744.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/256/2956/2956744.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/128/2956/2956744.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/64/2956/2956744.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="manifest" href="manifest.json" />
+    <script defer src="app.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>C-Wallet</title>
+    <style>
+      .category-card {
+        transition: all 0.3s ease;
+      }
+      .category-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      }
+      .category-card:active {
+        transform: translateY(0);
+      }
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <!-- Page d'accueil -->
+    <div id="homePage" class="min-h-screen p-4">
+      <!-- Header -->
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center justify-between mb-8 mt-6">
+          <h1 class="text-white text-lg font-medium">Bonjour !</h1>
+          <div class="flex items-center space-x-3">
+            <button onclick="showQRCode()" 
+                    class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-all shadow-lg"
+                    title="QR Code pour mobile">
+              <i class="fas fa-qrcode text-white text-lg"></i>
+            </button>
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+              <i class="fas fa-user text-gray-600"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="space-y-3">
+          <!-- Mon identité -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('identity')">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-id-card text-blue-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Mon identité</h3>
+              <p class="text-sm text-gray-500">Mise à jour nécessaire</p>
+            </div>
+            <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+          </div>
+
+          <!-- Ma santé -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('health')">
+            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-heart text-red-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Ma santé</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Mon logement -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('housing')">
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-home text-green-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Mon logement</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Ma CAF -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('caf')">
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-users text-purple-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Ma CAF</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Mes ressources -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('resources')">
+            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-coins text-yellow-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Mes ressources</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Ma banque -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('bank')">
+            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-university text-indigo-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Ma banque</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Mes impôts -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('taxes')">
+            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-receipt text-gray-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Mes impôts</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+
+          <!-- Ma mobilité -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('mobility')">
+            <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-car text-teal-600 text-xl"></i>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-semibold text-gray-800">Ma mobilité</h3>
+              <p class="text-sm text-gray-500">Aucun document à mettre à jour</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Mon identité -->
+    <div id="identityPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <!-- Header avec retour -->
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Mon identité</h1>
+        </div>
+
+        <!-- Zone d'ajout de document -->
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-plus text-blue-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <p class="text-sm text-gray-500">Ajoutez vos documents d'identité ici</p>
+          </div>
+          
+          <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(event)" />
+          <button onclick="document.getElementById('fileInput').click()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Choisir un fichier
+          </button>
+          
+          <div class="text-xs text-gray-400 text-center">
+            Formats acceptés: PDF, JPG, PNG
+          </div>
+        </div>
+
+        <!-- Liste des documents -->
+        <div id="documentsList" class="space-y-3">
+          <!-- Les documents seront affichés ici -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal QR Code -->
+    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-bold text-gray-800">📱 QR Code Mobile</h3>
+          <button onclick="closeQRCode()" class="text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div id="qrContainer" class="text-center">
+          <div id="qrLoading" class="text-blue-600 mb-4">⏳ Génération...</div>
+          <div id="qrContent"></div>
+          <div id="qrUrl" class="mt-4 p-3 bg-gray-100 rounded text-sm font-mono break-all"></div>
+          <div class="mt-4 text-sm text-gray-600">
+            <p><strong>Instructions :</strong></p>
+            <p>1. Scannez le QR avec votre téléphone</p>
+            <p>2. Installez l'app ("Ajouter à l'écran d'accueil")</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
