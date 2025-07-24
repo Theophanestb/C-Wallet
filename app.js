@@ -58,7 +58,7 @@ function installApp() {
 // Détecter si l'app est installée
 window.addEventListener('appinstalled', (evt) => {
   console.log('PWA: App installée avec succès');
-  showNotification('🎉 C-wallet installé! Cherchez l\'icône sur votre écran d\'accueil.', 'success');
+  showNotification('C-wallet installé! Cherchez l\'icône sur votre écran d\'accueil.', 'success');
 });
 
 // Navigation entre les pages
@@ -205,39 +205,29 @@ function viewDocument(docId, category) {
   const stored = JSON.parse(localStorage.getItem('cw_docs_' + category) || '[]');
   const doc = stored.find(d => d.id === docId);
   if (!doc) return;
-  
-  // Ouvrir le document dans un nouvel onglet
-  const newWindow = window.open();
-  newWindow.document.write(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>${doc.name}</title>
-      <style>
-        body { margin: 0; padding: 20px; font-family: system-ui; background: #f3f4f6; }
-        .container { max-width: 800px; margin: 0 auto; }
-        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-        .content { background: white; padding: 20px; border-radius: 8px; text-align: center; }
-        img { max-width: 100%; height: auto; border-radius: 8px; }
-        iframe { width: 100%; height: 600px; border: none; border-radius: 8px; }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="header">
-          <h1>${doc.name}</h1>
-          <p>Taille: ${formatFileSize(doc.size)} • Ajouté le: ${formatDate(doc.dateAdded)}</p>
-        </div>
-        <div class="content">
-          ${doc.type.startsWith('image/') ? 
-            `<img src="${doc.data}" alt="${doc.name}" />` :
-            `<iframe src="${doc.data}"></iframe>`
-          }
-        </div>
-      </div>
-    </body>
-    </html>
-  `);
+
+  // Détection mobile simple
+  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+  // Partage natif si possible
+  if (isMobile && navigator.share) {
+    let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
+    fetch(doc.data)
+      .then(res => res.blob())
+      .then(blob => {
+        const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
+        navigator.share({
+          title: doc.name,
+          text: 'Voici mon document',
+          files: [file]
+        }).catch(() => {
+          showNotification('Partage annulé ou non supporté', 'error');
+        });
+      })
+      .catch(() => {
+        showNotification('Impossible de préparer le document pour le partage', 'error');
+      });
+    return;
+  }
 }
 
 // Supprimer un document
