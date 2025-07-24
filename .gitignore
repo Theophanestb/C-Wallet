@@ -1,0 +1,7 @@
+# Ne pas versionner les fichiers npm
+package.json
+package-lock.json
+# Dossiers classiques à ignorer
+node_modules/
+.env
+.DS_Store
