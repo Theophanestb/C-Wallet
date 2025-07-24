@@ -84,92 +84,54 @@ function goBack() {
 
 // Gestion des fichiers
 function handleFileSelect(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  
-  // Vérifier la taille du fichier (max 10MB)
-  if (file.size > 10 * 1024 * 1024) {
-    alert("Le fichier est trop volumineux. Taille maximum: 10MB");
-    return;
-  }
-  
-  // Vérifier le type de fichier
+  const files = event.target.files;
+  if (!files || files.length === 0) return;
   const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
-  if (!allowedTypes.includes(file.type)) {
-    alert("Type de fichier non supporté. Utilisez PDF, JPG ou PNG.");
-    return;
-  }
-  
-  // Lire le fichier
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const base64 = e.target.result;
-    saveDocument('identity', {
-      id: Date.now().toString(),
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      data: base64,
-      dateAdded: new Date().toISOString()
-    });
-    
-    // Réinitialiser l'input
-    event.target.value = '';
-    
-    // Recharger la liste des documents
-    loadIdentityDocuments();
-    
-    // Afficher un message de succès
-    showNotification("Document ajouté avec succès!", "success");
-  };
-  
-  reader.onerror = function() {
-    alert("Erreur lors de la lecture du fichier");
-  };
-  
-  reader.readAsDataURL(file);
-}
-
-function openCamera() {
-  const cameraInput = document.createElement('input');
-  cameraInput.type = 'file';
-  cameraInput.accept = 'image/*';
-  cameraInput.capture = 'environment';
-  cameraInput.style.display = 'none';
-  document.body.appendChild(cameraInput);
-  cameraInput.onchange = function(event) {
-    const file = event.target.files[0];
-    if (!file) {
-      cameraInput.remove();
-      return;
-    }
+  let addedCount = 0;
+  let errorCount = 0;
+  let processed = 0;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
     if (file.size > 10 * 1024 * 1024) {
-      alert("Le fichier est trop volumineux. Taille maximum: 10MB");
-      cameraInput.remove();
-      return;
+      errorCount++;
+      continue;
+    }
+    if (!allowedTypes.includes(file.type)) {
+      errorCount++;
+      continue;
     }
     const reader = new FileReader();
     reader.onload = function(e) {
       const base64 = e.target.result;
       saveDocument('identity', {
-        id: Date.now().toString(),
-        name: 'Photo_' + new Date().toISOString().replace(/[:.]/g, '_') + '.jpg',
+        id: Date.now().toString() + '_' + i,
+        name: file.name,
         type: file.type,
         size: file.size,
         data: base64,
         dateAdded: new Date().toISOString()
       });
-      loadIdentityDocuments();
-      showNotification("Photo ajoutée avec succès!", "success");
-      cameraInput.remove();
+      addedCount++;
+      processed++;
+      if (processed === files.length) {
+        event.target.value = '';
+        loadIdentityDocuments();
+        if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
+        if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (type ou taille)", "error");
+      }
     };
     reader.onerror = function() {
-      alert("Erreur lors de la lecture de la photo");
-      cameraInput.remove();
+      errorCount++;
+      processed++;
+      if (processed === files.length) {
+        event.target.value = '';
+        loadIdentityDocuments();
+        if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
+        if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (erreur)", "error");
+      }
     };
     reader.readAsDataURL(file);
-  };
-  cameraInput.click();
+  }
 }
 
 // Sauvegarde des documents par catégorie

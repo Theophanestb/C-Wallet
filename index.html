@@ -155,14 +155,10 @@
             <p class="text-sm text-gray-500">Ajoutez vos documents d'identité ici</p>
           </div>
           
-          <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" onchange="handleFileSelect(event)" />
+          <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event)" />
           <button onclick="document.getElementById('fileInput').click()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Choisir un fichier
-          </button>
-          <button onclick="openCamera()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors mb-4">
-            <i class="fas fa-camera mr-2"></i>
-            Prendre une photo
+            Sélectionner un fichier / Prendre une photo
           </button>
           
           <div class="text-xs text-gray-400 text-center">
