@@ -287,28 +287,7 @@ function viewDocument(docId, category) {
     idbGetAllDocuments().then(stored => {
       const doc = stored.find(d => d.id === docId);
       if (!doc) return;
-      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-      if (isMobile && navigator.share) {
-        let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
-        fetch(doc.data)
-          .then(res => res.blob())
-          .then(blob => {
-            const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
-            navigator.share({
-              title: doc.name,
-              text: 'Voici mon document',
-              files: [file]
-            }).catch(() => {
-              showNotification('Partage annulé ou non supporté', 'error');
-            });
-          })
-          .catch(() => {
-            showNotification('Impossible de préparer le document pour le partage', 'error');
-          });
-        return;
-      }
-
-      // Affichage/masquage de l'aperçu sous le document
+      // Affichage/masquage de l'aperçu sous le document (toujours, même sur mobile)
       const previewDiv = document.getElementById('preview-' + docId);
       const eyeIcon = document.getElementById('eye-icon-' + docId);
       if (!previewDiv || !eyeIcon) return;
