@@ -664,6 +664,12 @@ function openCategory(categoryId) {
 function goBack() {
   document.getElementById('identityPage').classList.add('hidden');
   document.getElementById('healthPage').classList.add('hidden');
+  document.getElementById('housingPage').classList.add('hidden');
+  document.getElementById('cafPage').classList.add('hidden');
+  document.getElementById('resourcesPage').classList.add('hidden');
+  document.getElementById('bankPage').classList.add('hidden');
+  document.getElementById('taxesPage').classList.add('hidden');
+  document.getElementById('mobilityPage').classList.add('hidden');
   document.getElementById('homePage').classList.remove('hidden');
 }
 
