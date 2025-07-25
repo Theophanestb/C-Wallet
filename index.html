@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#2563eb" />
     <link rel="manifest" href="manifest.json" />
-    <script defer src="app.js?v=20250728"></script>
+    <script defer src="app.js?v=20250729"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <title>C-Wallet</title>
@@ -150,7 +150,6 @@
               <i class="fas fa-plus text-blue-600 text-2xl"></i>
             </div>
             <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
-            <p class="text-sm text-gray-500">Ajoutez vos documents d'identité ici</p>
           </div>
           
           <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event)" />
@@ -158,10 +157,6 @@
             <i class="fas fa-upload mr-2"></i>
             Sélectionner un fichier / Prendre une photo
           </button>
-          
-          <div class="text-xs text-gray-400 text-center">
-            Formats acceptés: PDF, JPG, PNG
-          </div>
         </div>
 
         <!-- Liste des documents -->

@@ -251,6 +251,9 @@ function loadIdentityDocuments() {
           <button onclick="shareDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
+          <button onclick="renameDocumentPrompt('${doc.id}', 'identity')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
+            <i class="fas fa-pen text-yellow-600 text-sm"></i>
+          </button>
           <button onclick="deleteDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center" title="Supprimer le document">
             <i class="fas fa-trash text-red-600 text-sm"></i>
           </button>
@@ -258,7 +261,48 @@ function loadIdentityDocuments() {
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
     `).join('');
-  });
+  }, {});
+}
+
+
+function renameDocumentPrompt(docId, category) {
+  if (category === 'identity') {
+    idbGetAllDocuments().then(stored => {
+      const doc = stored.find(d => d.id === docId);
+      if (!doc) return;
+      const newName = prompt('Nouveau nom du document :', doc.name);
+      if (newName && newName.trim() && newName !== doc.name) {
+        renameDocument(docId, newName.trim(), category);
+      }
+    });
+  }
+}
+
+// Renommer un document (update dans IndexedDB)
+function renameDocument(docId, newName, category) {
+  if (category === 'identity') {
+    openDb().then(db => {
+      const tx = db.transaction([DOC_STORE], 'readwrite');
+      const store = tx.objectStore(DOC_STORE);
+      const getReq = store.get(docId);
+      getReq.onsuccess = function(e) {
+        const doc = e.target.result;
+        if (!doc) return;
+        doc.name = newName;
+        const putReq = store.put(doc);
+        putReq.onsuccess = function() {
+          loadIdentityDocuments();
+          showNotification('Nom du document modifié', 'success');
+        };
+        putReq.onerror = function() {
+          showNotification('Erreur lors du renommage', 'error');
+        };
+      };
+      getReq.onerror = function() {
+        showNotification('Erreur lors du renommage', 'error');
+      };
+    });
+  }
 }
 
 // Utilitaires
