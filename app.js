@@ -1,70 +1,9 @@
-// Affiche l'espace de stockage disponible et utilisé
-function showStorageInfo() {
-  if (navigator.storage && navigator.storage.estimate) {
-    navigator.storage.estimate().then(({ quota, usage }) => {
-      const quotaMB = (quota / (1024 * 1024)).toFixed(1);
-      const usageMB = (usage / (1024 * 1024)).toFixed(1);
-      showNotification(`Stockage utilisé : ${usageMB} Mo / ${quotaMB} Mo`, 'info');
-    });
-  } else {
-    showNotification("Impossible d'estimer l'espace sur ce navigateur.", 'error');
-  }
-// Compression d'image (force JPEG, canvas, maxWidth, quality)
-function compressImageFileToJpeg(file, maxWidth = 800, quality = 0.3) {
-  return new Promise((resolve, reject) => {
-    const img = new window.Image();
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      img.onload = function() {
-        let width = img.width;
-        let height = img.height;
-        if (width > maxWidth) {
-          height = Math.round(height * (maxWidth / width));
-          width = maxWidth;
-        }
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        canvas.toBlob(function(blob) {
-          const reader2 = new FileReader();
-          reader2.onloadend = function() {
-            resolve({ base64: reader2.result, size: blob.size });
-          };
-          reader2.onerror = reject;
-          reader2.readAsDataURL(blob);
-        }, 'image/jpeg', quality);
-      };
-      img.onerror = reject;
-      img.src = e.target.result;
-    };
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-}
 
 // Vérifie si on est dans la PWA installée
 function isStandalonePWA() {
   return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  // Ajoute le bouton diagnostic en haut à droite
-  const btn = document.createElement('button');
-  btn.textContent = 'Espace disponible';
-  btn.className = 'fixed top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded shadow z-50';
-  btn.onclick = showStorageInfo;
-  document.body.appendChild(btn);
-
-  // Alerte si pas dans la PWA installée
-  if (!isStandalonePWA()) {
-    setTimeout(() => {
-      showNotification("⚠️ Installe l'app sur ton écran d'accueil pour débloquer l'espace de stockage !", 'error');
-    }, 1000);
-  }
-});
 // --- IndexedDB utils ---
 const DB_NAME = 'cwallet-db';
 const DB_VERSION = 1;
@@ -297,7 +236,7 @@ function loadIdentityDocuments() {
       return;
     }
     container.innerHTML = stored.map(doc => `
-      <div class="bg-white rounded-xl p-4 flex items-center">
+      <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
         </div>
@@ -306,8 +245,8 @@ function loadIdentityDocuments() {
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
-          <button onclick="viewDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
-            <i class="fas fa-eye text-blue-600 text-sm"></i>
+          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i id="eye-icon-${doc.id}" class="fas fa-eye text-blue-600 text-sm"></i>
           </button>
           <button onclick="shareDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
@@ -317,6 +256,7 @@ function loadIdentityDocuments() {
           </button>
         </div>
       </div>
+      <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
     `).join('');
   });
 }
@@ -367,7 +307,28 @@ function viewDocument(docId, category) {
           });
         return;
       }
-      // Ici, vous pouvez ajouter l'affichage du document dans une nouvelle page/modale si besoin
+
+      // Affichage/masquage de l'aperçu sous le document
+      const previewDiv = document.getElementById('preview-' + docId);
+      const eyeIcon = document.getElementById('eye-icon-' + docId);
+      if (!previewDiv || !eyeIcon) return;
+      // Toggle: si déjà affiché, on enlève et remet l'oeil normal
+      if (previewDiv.innerHTML) {
+        previewDiv.innerHTML = '';
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye');
+        return;
+      }
+      // Afficher l'image ou le PDF et mettre l'oeil barré
+      if (doc.type.startsWith('image/')) {
+        previewDiv.innerHTML = `<img src="${doc.data}" alt="Aperçu" class="max-h-64 rounded-lg shadow border" />`;
+      } else if (doc.type === 'application/pdf') {
+        previewDiv.innerHTML = `<iframe src="${doc.data}" class="w-full max-w-xl h-64 rounded-lg shadow border" frameborder="0"></iframe>`;
+      } else {
+        previewDiv.innerHTML = `<div class='text-gray-500'>Aperçu non disponible</div>`;
+      }
+      eyeIcon.classList.remove('fa-eye');
+      eyeIcon.classList.add('fa-eye-slash');
     });
     return;
   }
