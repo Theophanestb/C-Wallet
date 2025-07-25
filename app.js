@@ -1,3 +1,128 @@
+// Affiche l'espace de stockage disponible et utilisé
+function showStorageInfo() {
+  if (navigator.storage && navigator.storage.estimate) {
+    navigator.storage.estimate().then(({ quota, usage }) => {
+      const quotaMB = (quota / (1024 * 1024)).toFixed(1);
+      const usageMB = (usage / (1024 * 1024)).toFixed(1);
+      showNotification(`Stockage utilisé : ${usageMB} Mo / ${quotaMB} Mo`, 'info');
+    });
+  } else {
+    showNotification("Impossible d'estimer l'espace sur ce navigateur.", 'error');
+  }
+// Compression d'image (force JPEG, canvas, maxWidth, quality)
+function compressImageFileToJpeg(file, maxWidth = 800, quality = 0.3) {
+  return new Promise((resolve, reject) => {
+    const img = new window.Image();
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      img.onload = function() {
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+          height = Math.round(height * (maxWidth / width));
+          width = maxWidth;
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        canvas.toBlob(function(blob) {
+          const reader2 = new FileReader();
+          reader2.onloadend = function() {
+            resolve({ base64: reader2.result, size: blob.size });
+          };
+          reader2.onerror = reject;
+          reader2.readAsDataURL(blob);
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+}
+
+// Vérifie si on est dans la PWA installée
+function isStandalonePWA() {
+  return (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  // Ajoute le bouton diagnostic en haut à droite
+  const btn = document.createElement('button');
+  btn.textContent = 'Espace disponible';
+  btn.className = 'fixed top-4 left-4 bg-gray-800 text-white px-3 py-1 rounded shadow z-50';
+  btn.onclick = showStorageInfo;
+  document.body.appendChild(btn);
+
+  // Alerte si pas dans la PWA installée
+  if (!isStandalonePWA()) {
+    setTimeout(() => {
+      showNotification("⚠️ Installe l'app sur ton écran d'accueil pour débloquer l'espace de stockage !", 'error');
+    }, 1000);
+  }
+});
+// --- IndexedDB utils ---
+const DB_NAME = 'cwallet-db';
+const DB_VERSION = 1;
+const DOC_STORE = 'identityDocs';
+
+function openDb() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    request.onupgradeneeded = function(e) {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(DOC_STORE)) {
+        db.createObjectStore(DOC_STORE, { keyPath: 'id' });
+      }
+    };
+    request.onsuccess = function(e) {
+      resolve(e.target.result);
+    };
+    request.onerror = function(e) {
+      reject(e);
+    };
+  });
+}
+
+function idbSaveDocument(document) {
+  return openDb().then(db => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction([DOC_STORE], 'readwrite');
+      const store = tx.objectStore(DOC_STORE);
+      const req = store.add(document);
+      req.onsuccess = () => resolve();
+      req.onerror = (e) => reject(e);
+    });
+  });
+}
+
+function idbGetAllDocuments() {
+  return openDb().then(db => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction([DOC_STORE], 'readonly');
+      const store = tx.objectStore(DOC_STORE);
+      const req = store.getAll();
+      req.onsuccess = (e) => resolve(e.target.result);
+      req.onerror = (e) => reject(e);
+    });
+  });
+}
+
+function idbDeleteDocument(docId) {
+  return openDb().then(db => {
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction([DOC_STORE], 'readwrite');
+      const store = tx.objectStore(DOC_STORE);
+      const req = store.delete(docId);
+      req.onsuccess = () => resolve();
+      req.onerror = (e) => reject(e);
+    });
+  });
+}
 // Installation PWA
 let deferredPrompt;
 
@@ -100,84 +225,100 @@ function handleFileSelect(event) {
       errorCount++;
       continue;
     }
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const base64 = e.target.result;
-      saveDocument('identity', {
-        id: Date.now().toString() + '_' + i,
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        data: base64,
-        dateAdded: new Date().toISOString()
-      });
-      addedCount++;
-      processed++;
-      if (processed === files.length) {
-        event.target.value = '';
-        loadIdentityDocuments();
-        if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
-        if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (type ou taille)", "error");
-      }
-    };
-    reader.onerror = function() {
-      errorCount++;
-      processed++;
-      if (processed === files.length) {
-        event.target.value = '';
-        loadIdentityDocuments();
-        if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
-        if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (erreur)", "error");
-      }
-    };
-    reader.readAsDataURL(file);
+    {
+      // PDF ou autre type accepté
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64 = e.target.result;
+        const uniqueId = `${Date.now()}_${i}_${file.name.replace(/[^a-zA-Z0-9]/g, '')}_${Math.floor(Math.random()*1e6)}`;
+        saveDocument('identity', {
+          id: uniqueId,
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          data: base64,
+          dateAdded: new Date().toISOString()
+        });
+        addedCount++;
+        processed++;
+        if (processed === files.length) {
+          event.target.value = '';
+          loadIdentityDocuments();
+          if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
+          if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (type ou taille)", "error");
+        }
+      };
+      reader.onerror = function() {
+        errorCount++;
+        processed++;
+        if (processed === files.length) {
+          event.target.value = '';
+          loadIdentityDocuments();
+          if (addedCount > 0) showNotification(addedCount + " document(s) ajouté(s) avec succès!", "success");
+          if (errorCount > 0) showNotification(errorCount + " fichier(s) ignoré(s) (erreur)", "error");
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }
 
 // Sauvegarde des documents par catégorie
 function saveDocument(category, document) {
-  const key = 'cw_docs_' + category;
-  const stored = JSON.parse(localStorage.getItem(key) || '[]');
-  stored.push(document);
-  localStorage.setItem(key, JSON.stringify(stored));
+  if (category === 'identity') {
+    idbSaveDocument(document)
+      .then(() => {
+        // Succès, rien à faire ici (notification déjà gérée dans handleFileSelect)
+      })
+      .catch((e) => {
+        if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+          showNotification("Espace de stockage plein : impossible d'ajouter plus de documents.", "error");
+        } else {
+          showNotification("Erreur lors de la sauvegarde du document.", "error");
+        }
+      });
+  }
+  // Pour d'autres catégories, garder localStorage (à adapter si besoin)
 }
 
 // Chargement des documents d'identité
 function loadIdentityDocuments() {
-  const stored = JSON.parse(localStorage.getItem('cw_docs_identity') || '[]');
-  const container = document.getElementById('documentsList');
-  
-  if (stored.length === 0) {
-    container.innerHTML = `
-      <div class="bg-white rounded-xl p-6 text-center">
-        <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-          <i class="fas fa-folder-open text-gray-400 text-xl"></i>
+  idbGetAllDocuments().then(stored => {
+    const container = document.getElementById('documentsList');
+    if (!stored || stored.length === 0) {
+      container.innerHTML = `
+        <div class="bg-white rounded-xl p-6 text-center">
+          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-folder-open text-gray-400 text-xl"></i>
+          </div>
+          <p class="text-gray-500">Aucun document d'identité</p>
         </div>
-        <p class="text-gray-500">Aucun document d'identité</p>
+      `;
+      return;
+    }
+    container.innerHTML = stored.map(doc => `
+      <div class="bg-white rounded-xl p-4 flex items-center">
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+          <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
+        </div>
+        <div class="flex space-x-2">
+          <button onclick="viewDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i class="fas fa-eye text-blue-600 text-sm"></i>
+          </button>
+          <button onclick="shareDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+            <i class="fas fa-share-alt text-green-600 text-sm"></i>
+          </button>
+          <button onclick="deleteDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center" title="Supprimer le document">
+            <i class="fas fa-trash text-red-600 text-sm"></i>
+          </button>
+        </div>
       </div>
-    `;
-    return;
-  }
-  
-  container.innerHTML = stored.map(doc => `
-    <div class="bg-white rounded-xl p-4 flex items-center">
-      <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
-        <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
-      </div>
-      <div class="flex-1">
-        <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
-        <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
-      </div>
-      <div class="flex space-x-2">
-        <button onclick="viewDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-          <i class="fas fa-eye text-blue-600 text-sm"></i>
-        </button>
-        <button onclick="deleteDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-          <i class="fas fa-trash text-red-600 text-sm"></i>
-        </button>
-      </div>
-    </div>
-  `).join('');
+    `).join('');
+  });
 }
 
 // Utilitaires
@@ -202,49 +343,50 @@ function formatDate(dateString) {
 
 // Voir un document
 function viewDocument(docId, category) {
-  const stored = JSON.parse(localStorage.getItem('cw_docs_' + category) || '[]');
-  const doc = stored.find(d => d.id === docId);
-  if (!doc) return;
-
-  // Détection mobile simple
-  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
-  // Partage natif si possible
-  if (isMobile && navigator.share) {
-    let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
-    fetch(doc.data)
-      .then(res => res.blob())
-      .then(blob => {
-        const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
-        navigator.share({
-          title: doc.name,
-          text: 'Voici mon document',
-          files: [file]
-        }).catch(() => {
-          showNotification('Partage annulé ou non supporté', 'error');
-        });
-      })
-      .catch(() => {
-        showNotification('Impossible de préparer le document pour le partage', 'error');
-      });
+  if (category === 'identity') {
+    idbGetAllDocuments().then(stored => {
+      const doc = stored.find(d => d.id === docId);
+      if (!doc) return;
+      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+      if (isMobile && navigator.share) {
+        let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
+        fetch(doc.data)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
+            navigator.share({
+              title: doc.name,
+              text: 'Voici mon document',
+              files: [file]
+            }).catch(() => {
+              showNotification('Partage annulé ou non supporté', 'error');
+            });
+          })
+          .catch(() => {
+            showNotification('Impossible de préparer le document pour le partage', 'error');
+          });
+        return;
+      }
+      // Ici, vous pouvez ajouter l'affichage du document dans une nouvelle page/modale si besoin
+    });
     return;
   }
+  // Pour d'autres catégories, garder localStorage (à adapter si besoin)
 }
 
 // Supprimer un document
 function deleteDocument(docId, category) {
   if (!confirm('Êtes-vous sûr de vouloir supprimer ce document ?')) return;
-  
-  const key = 'cw_docs_' + category;
-  const stored = JSON.parse(localStorage.getItem(key) || '[]');
-  const updated = stored.filter(doc => doc.id !== docId);
-  localStorage.setItem(key, JSON.stringify(updated));
-  
-  // Recharger la liste
   if (category === 'identity') {
-    loadIdentityDocuments();
+    idbDeleteDocument(docId).then(() => {
+      loadIdentityDocuments();
+      showNotification("Document supprimé", "success");
+    }).catch(() => {
+      showNotification("Erreur lors de la suppression du document", "error");
+    });
+    return;
   }
-  
-  showNotification("Document supprimé", "success");
+  // Pour d'autres catégories, garder localStorage (à adapter si besoin)
 }
 
 // Notification
@@ -273,4 +415,36 @@ if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("service-worker.js");
   });
+}
+
+function shareDocument(docId, category) {
+  if (category === 'identity') {
+    idbGetAllDocuments().then(stored => {
+      const doc = stored.find(d => d.id === docId);
+      if (!doc) return;
+      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+      if (isMobile && navigator.share) {
+        let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
+        fetch(doc.data)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
+            navigator.share({
+              title: doc.name,
+              text: 'Voici mon document',
+              files: [file]
+            }).catch(() => {
+              showNotification('Partage annulé ou non supporté', 'error');
+            });
+          })
+          .catch(() => {
+            showNotification('Impossible de préparer le document pour le partage', 'error');
+          });
+        return;
+      }
+      showNotification("Partage disponible uniquement sur mobile compatible.", "info");
+    });
+    return;
+  }
+  // Pour d'autres catégories, garder localStorage (à adapter si besoin)
 }
