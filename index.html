@@ -8,6 +8,7 @@
     <script defer src="app.js?v=20250729"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>C-Wallet</title>
     <style>
       .category-card {
@@ -24,6 +25,17 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
       }
+      #langSelect {
+        display: none;
+        position: absolute;
+        top: 45px;
+        right: 0;
+        z-index: 50;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        padding: 0.5rem 1rem;
+      }
     </style>
   </head>
   <body class="text-gray-800">
@@ -32,10 +44,12 @@
       <!-- Header -->
       <div class="max-w-md mx-auto">
         <div class="flex items-center justify-between mb-8 mt-6">
-          <h1 class="text-white text-lg font-medium">Bonjour !</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Bienvenue dans votre C-Wallet">Bienvenue dans votre C-Wallet</h1>
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <i class="fas fa-user text-gray-600"></i>
+            <div class="relative">
+              <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer" id="translateBtn" title="Traduire">
+                <span class="material-icons text-gray-600 text-2xl">translate</span>
+              </div>
             </div>
           </div>
         </div>
@@ -376,5 +390,162 @@
         }
       }
     </script>
+
+    <script>
+      const translations = {
+        en: {
+          "Bienvenue dans votre C-Wallet": "Welcome to your C-Wallet",
+          "Mon identité": "My ID",
+          "Ma santé": "My Health",
+          "Mon logement": "My Housing",
+          "Ma CAF": "My CAF",
+          "Mes ressources": "My Resources",
+          "Ma banque": "My Bank",
+          "Mes impôts": "My Taxes",
+          "Ma mobilité": "My Mobility",
+          "Ajouter un document": "Add a document",
+          "Sélectionner un fichier / Prendre une photo": "Select a file / Take a photo",
+          "Aucun document": "No document",
+          "Aucun document de la CAF": "No CAF document",
+          "Aucun document de ressources": "No resource document",
+          "Aucun document bancaire": "No bank document",
+          "Aucun document fiscal": "No tax document",
+          "Aucun document de mobilité": "No mobility document",
+          "Aucun document de logement": "No housing document",
+          "Aucun document de santé": "No health document",
+          "Aucun document d'identité": "No ID document"
+        },
+        ru: {
+          "Bienvenue dans votre C-Wallet": "Добро пожаловать в ваш C-Wallet",
+          "Mon identité": "Моя личность",
+          "Ma santé": "Моё здоровье",
+          "Mon logement": "Моё жильё",
+          "Ma CAF": "Моя CAF",
+          "Mes ressources": "Мои ресурсы",
+          "Ma banque": "Мой банк",
+          "Mes impôts": "Мои налоги",
+          "Ma mobilité": "Моя мобильность",
+          "Ajouter un document": "Добавить документ",
+          "Sélectionner un fichier / Prendre une photo": "Выбрать файл / Сделать фото",
+          "Aucun document": "Нет документов",
+          "Aucun document de la CAF": "Нет документов CAF",
+          "Aucun document de ressources": "Нет документов о ресурсах",
+          "Aucun document bancaire": "Нет банковских документов",
+          "Aucun document fiscal": "Нет налоговых документов",
+          "Aucun document de mobilité": "Нет документов о мобильности",
+          "Aucun document de logement": "Нет документов о жилье",
+          "Aucun document de santé": "Нет медицинских документов",
+          "Aucun document d'identité": "Нет удостоверения личности"
+        },
+        ar: {
+          "Bienvenue dans votre C-Wallet": "مرحبًا بك في محفظتك الإلكترونية",
+          "Mon identité": "هويتي",
+          "Ma santé": "صحتي",
+          "Mon logement": "سكني",
+          "Ma CAF": "صندوق إعانتي",
+          "Mes ressources": "مواردي",
+          "Ma banque": "بنكـي",
+          "Mes impôts": "ضرائبي",
+          "Ma mobilité": "تنقلي",
+          "Ajouter un document": "إضافة مستند",
+          "Sélectionner un fichier / Prendre une photo": "اختر ملفًا / التقط صورة",
+          "Aucun document": "لا يوجد مستند",
+          "Aucun document de la CAF": "لا يوجد مستند لصندوق الإعانة",
+          "Aucun document de ressources": "لا يوجد مستند للموارد",
+          "Aucun document bancaire": "لا يوجد مستند بنكي",
+          "Aucun document fiscal": "لا يوجد مستند ضريبي",
+          "Aucun document de mobilité": "لا يوجد مستند للتنقل",
+          "Aucun document de logement": "لا يوجد مستند للسكن",
+          "Aucun document de santé": "لا يوجد مستند صحي",
+          "Aucun document d'identité": "لا يوجد مستند هوية"
+        },
+        ti: {
+          "Bienvenue dans votre C-Wallet": "እንቋዕ ብደሓን መጻእኩም ናብ C-Wallet",
+          "Mon identité": "ናይ ሓንቲ መለክዒ",
+          "Ma santé": "ጥዕናይ",
+          "Mon logement": "መኖርያይ",
+          "Ma CAF": "CAF የውን",
+          "Mes ressources": "ሓበሬታይ",
+          "Ma banque": "ባንክየ",
+          "Mes impôts": "ግብሪየ",
+          "Ma mobilité": "ንቅናቄየ",
+          "Ajouter un document": "መዝገብ ኣእትው",
+          "Sélectionner un fichier / Prendre une photo": "ፋይል ምረፅ / ፎቶ ኣንስኡ",
+          "Aucun document": "መዝገብ የለን",
+          "Aucun document de la CAF": "መዝገብ CAF የለን",
+          "Aucun document de ressources": "መዝገብ ሓበሬታ የለን",
+          "Aucun document bancaire": "መዝገብ ባንክ የለን",
+          "Aucun document fiscal": "መዝገብ ግብሪ የለን",
+          "Aucun document de mobilité": "መዝገብ ንቅናቄ የለን",
+          "Aucun document de logement": "መዝገብ መኖርያ የለን",
+          "Aucun document de santé": "መዝገብ ጥዕና የለን",
+          "Aucun document d'identité": "መዝገብ መለክዒ የለን"
+        },
+        fa: { // Dari (فارسی)
+          "Bienvenue dans votre C-Wallet": "به C-Wallet خوش آمدید",
+          "Mon identité": "هویت من",
+          "Ma santé": "سلامتی من",
+          "Mon logement": "محل سکونت من",
+          "Ma CAF": "کاف من",
+          "Mes ressources": "منابع من",
+          "Ma banque": "بانک من",
+          "Mes impôts": "مالیات من",
+          "Ma mobilité": "تحرک من",
+          "Ajouter un document": "افزودن سند",
+          "Sélectionner un fichier / Prendre une photo": "انتخاب فایل / گرفتن عکس",
+          "Aucun document": "سندی وجود ندارد",
+          "Aucun document de la CAF": "سند کاف وجود ندارد",
+          "Aucun document de ressources": "سند منابع وجود ندارد",
+          "Aucun document bancaire": "سند بانکی وجود ندارد",
+          "Aucun document fiscal": "سند مالیاتی وجود ندارد",
+          "Aucun document de mobilité": "سند تحرک وجود ندارد",
+          "Aucun document de logement": "سند محل سکونت وجود ندارد",
+          "Aucun document de santé": "سند سلامتی وجود ندارد",
+          "Aucun document d'identité": "سند هویت وجود ندارد"
+        },
+        ps: { // Pachto (پښتو)
+          "Bienvenue dans votre C-Wallet": "ستاسو C-Wallet ته ښه راغلاست",
+          "Mon identité": "زما پېژندنه",
+          "Ma santé": "زما روغتیا",
+          "Mon logement": "زما استوګنځی",
+          "Ma CAF": "زما CAF",
+          "Mes ressources": "زما سرچینې",
+          "Ma banque": "زما بانک",
+          "Mes impôts": "زما مالیات",
+          "Ma mobilité": "زما خوځښت",
+          "Ajouter un document": "سند اضافه کړئ",
+          "Sélectionner un fichier / Prendre une photo": "فایل غوره کړئ / عکس واخلئ",
+          "Aucun document": "هیڅ سند نشته",
+          "Aucun document de la CAF": "د CAF سند نشته",
+          "Aucun document de ressources": "د سرچینو سند نشته",
+          "Aucun document bancaire": "د بانک سند نشته",
+          "Aucun document fiscal": "د مالیاتو سند نشته",
+          "Aucun document de mobilité": "د خوځښت سند نشته",
+          "Aucun document de logement": "د استوګنې سند نشته",
+          "Aucun document de santé": "د روغتیا سند نشته",
+          "Aucun document d'identité": "د پېژندنې سند نشته"
+        },
+        fr: {}
+      };
+
+      let currentLang = 'fr';
+
+      function translatePage(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (translations[lang][key]) {
+            el.textContent = translations[lang][key];
+          } else if (lang === 'fr') {
+            el.textContent = key;
+          }
+        });
+      }
+
+      // Ajoute l'écouteur sur le bouton
+      document.getElementById('langSelect').onchange = function() {
+        translatePage(this.value);
+      };
+      </script>
   </body>
 </html>
