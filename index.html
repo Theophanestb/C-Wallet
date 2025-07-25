@@ -151,8 +151,8 @@
             </div>
             <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
           </div>
-          
-          <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event)" />
+
+          <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'identity')" />
           <button onclick="document.getElementById('fileInput').click()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
             Sélectionner un fichier / Prendre une photo
@@ -165,6 +165,216 @@
         </div>
       </div>
     </div>
+        <!-- Page Ma santé -->
+    <div id="healthPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Ma santé</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-heart text-red-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputHealth" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'health')" />
+          <button onclick="document.getElementById('fileInputHealth').click()" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListHealth" class="space-y-3"></div>
+      </div>
+    </div>
 
+    <!-- Page Mon logement -->
+    <div id="housingPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Mon logement</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-home text-green-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputHousing" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'housing')" />
+          <button onclick="document.getElementById('fileInputHousing').click()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListHousing" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Ma CAF -->
+    <div id="cafPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Ma CAF</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-users text-purple-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputCaf" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'caf')" />
+          <button onclick="document.getElementById('fileInputCaf').click()" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListCaf" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Mes ressources -->
+    <div id="resourcesPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Mes ressources</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-coins text-yellow-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputResources" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'resources')" />
+          <button onclick="document.getElementById('fileInputResources').click()" class="w-full bg-yellow-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListResources" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Ma banque -->
+    <div id="bankPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Ma banque</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-university text-indigo-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputBank" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'bank')" />
+          <button onclick="document.getElementById('fileInputBank').click()" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListBank" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Mes impôts -->
+    <div id="taxesPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Mes impôts</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-receipt text-gray-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputTaxes" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'taxes')" />
+          <button onclick="document.getElementById('fileInputTaxes').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListTaxes" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Ma mobilité -->
+    <div id="mobilityPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium">Ma mobilité</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-car text-teal-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputMobility" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'mobility')" />
+          <button onclick="document.getElementById('fileInputMobility').click()" class="w-full bg-teal-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-teal-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            Sélectionner un fichier / Prendre une photo
+          </button>
+        </div>
+        <div id="documentsListMobility" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <script>
+      // Fonction pour ouvrir une catégorie
+      function openCategory(category) {
+        document.getElementById('homePage').classList.add('hidden');
+        document.getElementById(category + 'Page').classList.remove('hidden');
+      }
+
+      // Fonction pour revenir à la page d'accueil
+      function goBack() {
+        const pages = document.querySelectorAll('.min-h-screen');
+        pages.forEach(page => page.classList.add('hidden'));
+        document.getElementById('homePage').classList.remove('hidden');
+      }
+
+      // Fonction pour gérer la sélection de fichiers
+      function handleFileSelect(event, category) {
+        const files = event.target.files;
+        const list = document.getElementById('documentsList' + category.charAt(0).toUpperCase() + category.slice(1));
+        list.innerHTML = ''; // Réinitialiser la liste
+
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const listItem = document.createElement('div');
+          listItem.className = 'bg-white rounded-lg p-4 mb-2 shadow';
+          listItem.textContent = file.name;
+          list.appendChild(listItem);
+        }
+      }
+    </script>
   </body>
 </html>
