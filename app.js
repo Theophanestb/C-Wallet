@@ -191,7 +191,7 @@ function loadIdentityDocuments() {
       shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => {
-      const isSelected = window.selectedIdentityDocs && window.selectedIdentityDocs.has(doc.id);
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
       return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
@@ -223,7 +223,7 @@ function loadIdentityDocuments() {
     // Activer/désactiver le bouton "Partager sélectionnés"
     const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('identity')\"]");
     if (shareSelectedBtn) {
-      if (window.selectedIdentityDocs && window.selectedIdentityDocs.size > 0) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
         shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
         shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
         shareSelectedBtn.disabled = false;
@@ -236,44 +236,7 @@ function loadIdentityDocuments() {
   });
 }
 
-// Sélection locale pour la page Mon identité (global)
-window.selectedIdentityDocs = window.selectedIdentityDocs || new Set();
 
-function toggleSelectIdentityDoc(docId, btn) {
-  if (!window.selectedIdentityDocs) window.selectedIdentityDocs = new Set();
-  if (window.selectedIdentityDocs.has(docId)) {
-    window.selectedIdentityDocs.delete(docId);
-    btn.classList.remove('ring-2','ring-blue-500');
-  } else {
-    window.selectedIdentityDocs.add(docId);
-    btn.classList.add('ring-2','ring-blue-500');
-  }
-  // Mettre à jour l'état du bouton "Partager sélectionnés"
-  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('identity')\"]");
-  if (shareSelectedBtn) {
-    if (window.selectedIdentityDocs.size > 0) {
-      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
-      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
-      shareSelectedBtn.disabled = false;
-    } else {
-      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
-      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
-      shareSelectedBtn.disabled = true;
-    }
-  }
-}
-
-// Fonction pour partager les documents sélectionnés (identité)
-function shareSelectedDocuments(category) {
-  if (category === 'identity' && window.selectedIdentityDocs && window.selectedIdentityDocs.size > 0) {
-    idbGetAllDocuments('identity').then(stored => {
-      const docsToShare = stored.filter(doc => window.selectedIdentityDocs.has(doc.id));
-      if (docsToShare.length > 0) {
-        shareDocument(docsToShare, 'identity');
-      }
-    });
-  }
-}
   
 
 // Chargement des documents de santé
@@ -302,7 +265,9 @@ function loadHealthDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-red-600"></i>
@@ -315,7 +280,7 @@ function loadHealthDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'health')" class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-red-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'health')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectHealthDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'health')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -327,7 +292,19 @@ function loadHealthDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('health')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -356,7 +333,9 @@ function loadHousingDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-green-600"></i>
@@ -369,7 +348,7 @@ function loadHousingDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'housing')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-green-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'housing')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectHousingDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'housing')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -381,7 +360,19 @@ function loadHousingDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('housing')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -412,7 +403,9 @@ function loadCafDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-purple-600"></i>
@@ -425,7 +418,7 @@ function loadCafDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'caf')" class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-purple-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'caf')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectCafDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'caf')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -437,7 +430,19 @@ function loadCafDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('caf')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -466,7 +471,9 @@ function loadResourcesDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-orange-600"></i>
@@ -479,7 +486,7 @@ function loadResourcesDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'resources')" class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-orange-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'resources')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectResourcesDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'resources')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -491,7 +498,19 @@ function loadResourcesDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('resources')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -520,7 +539,9 @@ function loadBankDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
@@ -533,7 +554,7 @@ function loadBankDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'bank')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-blue-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'bank')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectBankDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'bank')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -545,7 +566,19 @@ function loadBankDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('bank')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -574,7 +607,9 @@ function loadTaxesDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-yellow-600"></i>
@@ -587,7 +622,7 @@ function loadTaxesDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'taxes')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-yellow-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'taxes')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectTaxesDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'taxes')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -599,7 +634,19 @@ function loadTaxesDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('taxes')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
@@ -628,7 +675,9 @@ function loadMobilityDocuments() {
       shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
       shareAllBtn.disabled = false;
     }
-    container.innerHTML = stored.map(doc => `
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-pink-600"></i>
@@ -641,7 +690,7 @@ function loadMobilityDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-pink-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectMobilityDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'mobility')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -653,11 +702,284 @@ function loadMobilityDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+    `}).join('');
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('mobility')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedDocs && window.selectedDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
 
-// ...existing code...
+// Sélection locale pour la page Mon identité (global)
+window.selectedDocs = window.selectedDocs || new Set();
+
+function toggleSelectIdentityDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('identity')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectHealthDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('health')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectHousingDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('housing')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectCafDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('caf')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectResourcesDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('resources')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectBankDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('bank')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectTaxesDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('taxes')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+function toggleSelectMobilityDoc(docId, btn) {
+  if (!window.selectedDocs) window.selectedDocs = new Set();
+  if (window.selectedDocs.has(docId)) {
+    window.selectedDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('mobility')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+// Fonction pour partager les documents sélectionnés (identité)
+function shareSelectedDocuments(category) {
+  if (category === 'identity' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('identity').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'identity');
+      }
+    });
+  }
+  if (category === 'health' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('health').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'health');
+      }
+    });
+  }
+  if (category === 'housing' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('housing').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'housing');
+      }
+    });
+  }
+  if (category === 'caf' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('caf').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'caf');
+      }
+    });
+  }
+  if (category === 'resources' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('resources').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'resources');
+      }
+    });
+  }
+  if (category === 'bank' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('bank').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'bank');
+      }
+    });
+  }
+  if (category === 'taxes' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('taxes').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'taxes');
+      }
+    });
+  }
+  if (category === 'mobility' && window.selectedDocs && window.selectedDocs.size > 0) {
+    idbGetAllDocuments('mobility').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'mobility');
+      }
+    });
+  }
+}
 
 // Renommer un document
 function renameDocumentPrompt(docId, category) {
@@ -752,7 +1074,6 @@ function shareDocument(docOrList, category) {
     });
     return;
   }
-  // Sinon, partage d'un seul document (docId)
   idbGetAllDocuments(category).then(stored => {
     const doc = stored.find(d => d.id === docOrList);
     if (!doc) return;
@@ -765,7 +1086,7 @@ function shareDocument(docOrList, category) {
           const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
           navigator.share({
             title: 'Document partagé',
-            text: 'Voici mon document',
+            text: '',
             files: [file]
           }).catch(() => {});
         })
@@ -777,8 +1098,6 @@ function shareDocument(docOrList, category) {
     showNotification("Partage disponible uniquement sur mobile compatible.", "info");
   });
 }
-
-// (supprimée : doublon inutile, la bonne fonction est plus haut)
 
 function shareAllDocuments(category) {
   idbGetAllDocuments(category).then(stored => {
@@ -793,7 +1112,7 @@ function shareAllDocuments(category) {
       if (isMobile && navigator.share) {
         navigator.share({
           title: 'Documents partagés',
-          text: 'Voici mes documents',
+          text: '',
           files: files
         }).catch(() => {});
       } else {
@@ -877,6 +1196,7 @@ function goBack() {
   document.getElementById('taxesPage').classList.add('hidden');
   document.getElementById('mobilityPage').classList.add('hidden');
   document.getElementById('homePage').classList.remove('hidden');
+  window.selectedDocs = new Set();
 }
 
 // Ancienne fonction pour compatibilité
