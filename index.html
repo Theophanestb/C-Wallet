@@ -182,6 +182,18 @@
           </button>
         </div>
 
+        <!-- Boutons de partage -->
+        <div class="flex items-center gap-2 mb-4">
+          <button onclick="shareAllDocuments('identity')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+            <i class="fas fa-share-alt mr-2"></i>
+            <span data-i18n="Partager tout">Partager tout</span>
+          </button>
+          <button id="shareSelectedBtn-identity" onclick="shareSelectedDocuments('identity')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+            <i class="fas fa-check-double mr-2"></i>
+            <span data-i18n="Partager sélectionnés">Partager sélectionnés</span>
+          </button>
+        </div>
+
         <!-- Liste des documents -->
         <div id="documentsList" class="space-y-3">
           <!-- Les documents seront affichés ici -->
@@ -208,6 +220,17 @@
           <button onclick="document.getElementById('fileInputHealth').click()" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
             <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
+          </button>
+        </div>
+        <!-- Boutons de partage -->
+        <div class="flex items-center gap-2 mb-4">
+          <button onclick="shareAllDocuments('health')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+            <i class="fas fa-share-alt mr-2"></i>
+            <span data-i18n="Partager tout">Partager tout</span>
+          </button>
+          <button id="shareSelectedBtn-health" onclick="shareSelectedDocuments('health')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+            <i class="fas fa-check-double mr-2"></i>
+            <span data-i18n="Partager sélectionnés">Partager sélectionnés</span>
           </button>
         </div>
         <div id="documentsListHealth" class="space-y-3"></div>

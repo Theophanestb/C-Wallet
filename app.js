@@ -597,6 +597,29 @@ function shareDocument(docId, category) {
   });
 }
 
+function shareAllDocuments(category) {
+  idbGetAllDocuments(category).then(stored => {
+    const files = stored.map(doc => {
+      let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
+      return fetch(doc.data)
+        .then(res => res.blob())
+        .then(blob => new File([blob], doc.name || ('document' + fileExt), { type: doc.type }));
+    });
+    Promise.all(files).then(files => {
+      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+      if (isMobile && navigator.share) {
+        navigator.share({
+          title: 'Documents partagés',
+          text: 'Voici mes documents',
+          files: files
+        }).catch(() => {});
+      } else {
+        showNotification("Partage disponible uniquement sur mobile compatible.", "info");
+      }
+    });
+  });
+}
+
 // Utilitaires
 function getFileIcon(type) {
   if (type === 'application/pdf') return 'fa-file-pdf';
