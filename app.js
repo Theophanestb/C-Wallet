@@ -525,6 +525,12 @@ function renameDocumentPrompt(docId, category) {
         .then(() => {
           if (category === 'identity') loadIdentityDocuments();
           if (category === 'health') loadHealthDocuments();
+          if (category === 'mobility') loadMobilityDocuments();
+          if (category === 'housing') loadHousingDocuments();
+          if (category === 'caf') loadCafDocuments();
+          if (category === 'resources') loadResourcesDocuments();
+          if (category === 'bank') loadBankDocuments();
+          if (category === 'taxes') loadTaxesDocuments();
           showNotification('Nom du document modifié', 'success');
         })
         .catch(() => showNotification('Erreur lors du renommage', 'error'));
@@ -564,6 +570,12 @@ function deleteDocument(docId, category) {
   idbDeleteDocument(category, docId).then(() => {
     if (category === 'identity') loadIdentityDocuments();
     if (category === 'health') loadHealthDocuments();
+    if (category === 'mobility') loadMobilityDocuments();
+    if (category === 'housing') loadHousingDocuments();
+    if (category === 'caf') loadCafDocuments();
+    if (category === 'resources') loadResourcesDocuments();
+    if (category === 'bank') loadBankDocuments();
+    if (category === 'taxes') loadTaxesDocuments();
     showNotification("Document supprimé", "success");
   }).catch(() => {
     showNotification("Erreur lors de la suppression du document", "error");
@@ -583,7 +595,7 @@ function shareDocument(docId, category) {
         .then(blob => {
           const file = new File([blob], doc.name || ('document' + fileExt), { type: doc.type });
           navigator.share({
-            title: doc.name,
+            title: 'Document partagé',
             text: 'Voici mon document',
             files: [file]
           }).catch(() => {});
