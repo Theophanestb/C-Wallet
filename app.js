@@ -168,6 +168,7 @@ function handleFileSelect(event, category) {
 function loadIdentityDocuments() {
   idbGetAllDocuments('identity').then(stored => {
     const container = document.getElementById('documentsList');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('identity')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -177,9 +178,21 @@ function loadIdentityDocuments() {
           <p class="text-gray-500">Aucun document d'identité</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
     }
-    container.innerHTML = stored.map(doc => `
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
+    }
+    container.innerHTML = stored.map(doc => {
+      const isSelected = window.selectedIdentityDocs && window.selectedIdentityDocs.has(doc.id);
+      return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
         <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
           <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
@@ -192,7 +205,7 @@ function loadIdentityDocuments() {
           <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
             <i id="eye-icon-${doc.id}" class="fas fa-eye text-blue-600 text-sm"></i>
           </button>
-          <button onclick="shareDocument('${doc.id}', 'identity')" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center" title="Partager le document">
+          <button type="button" onclick="toggleSelectIdentityDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
           </button>
           <button onclick="renameDocumentPrompt('${doc.id}', 'identity')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Renommer le document">
@@ -204,14 +217,70 @@ function loadIdentityDocuments() {
         </div>
       </div>
       <div id="preview-${doc.id}" class="w-full flex justify-center mt-2"></div>
-    `).join('');
+      `;
+    }).join('');
+
+    // Activer/désactiver le bouton "Partager sélectionnés"
+    const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('identity')\"]");
+    if (shareSelectedBtn) {
+      if (window.selectedIdentityDocs && window.selectedIdentityDocs.size > 0) {
+        shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = false;
+      } else {
+        shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareSelectedBtn.disabled = true;
+      }
+    }
   });
 }
+
+// Sélection locale pour la page Mon identité (global)
+window.selectedIdentityDocs = window.selectedIdentityDocs || new Set();
+
+function toggleSelectIdentityDoc(docId, btn) {
+  if (!window.selectedIdentityDocs) window.selectedIdentityDocs = new Set();
+  if (window.selectedIdentityDocs.has(docId)) {
+    window.selectedIdentityDocs.delete(docId);
+    btn.classList.remove('ring-2','ring-blue-500');
+  } else {
+    window.selectedIdentityDocs.add(docId);
+    btn.classList.add('ring-2','ring-blue-500');
+  }
+  // Mettre à jour l'état du bouton "Partager sélectionnés"
+  const shareSelectedBtn = document.querySelector("button[onclick=\"shareSelectedDocuments('identity')\"]");
+  if (shareSelectedBtn) {
+    if (window.selectedIdentityDocs.size > 0) {
+      shareSelectedBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = false;
+    } else {
+      shareSelectedBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+      shareSelectedBtn.classList.remove('bg-green-600','hover:bg-green-700');
+      shareSelectedBtn.disabled = true;
+    }
+  }
+}
+
+// Fonction pour partager les documents sélectionnés (identité)
+function shareSelectedDocuments(category) {
+  if (category === 'identity' && window.selectedIdentityDocs && window.selectedIdentityDocs.size > 0) {
+    idbGetAllDocuments('identity').then(stored => {
+      const docsToShare = stored.filter(doc => window.selectedIdentityDocs.has(doc.id));
+      if (docsToShare.length > 0) {
+        shareDocument(docsToShare, 'identity');
+      }
+    });
+  }
+}
+  
 
 // Chargement des documents de santé
 function loadHealthDocuments() {
   idbGetAllDocuments('health').then(stored => {
     const container = document.getElementById('documentsListHealth');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('health')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -221,7 +290,17 @@ function loadHealthDocuments() {
           <p class="text-gray-500">Aucun document de santé</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -255,6 +334,7 @@ function loadHealthDocuments() {
 function loadHousingDocuments() {
   idbGetAllDocuments('housing').then(stored => {
     const container = document.getElementById('documentsListHousing');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('housing')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -264,7 +344,17 @@ function loadHousingDocuments() {
           <p class="text-gray-500">Aucun document de logement</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -300,6 +390,7 @@ function loadHousingDocuments() {
 function loadCafDocuments() {
   idbGetAllDocuments('caf').then(stored => {
     const container = document.getElementById('documentsListCaf');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('caf')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -309,7 +400,17 @@ function loadCafDocuments() {
           <p class="text-gray-500">Aucun document de la CAF</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -343,6 +444,7 @@ function loadCafDocuments() {
 function loadResourcesDocuments() {
   idbGetAllDocuments('resources').then(stored => {
     const container = document.getElementById('documentsListResources');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('resources')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -352,7 +454,17 @@ function loadResourcesDocuments() {
           <p class="text-gray-500">Aucun document de ressources</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -386,6 +498,7 @@ function loadResourcesDocuments() {
 function loadBankDocuments() {
   idbGetAllDocuments('bank').then(stored => {
     const container = document.getElementById('documentsListBank');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('bank')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -395,7 +508,17 @@ function loadBankDocuments() {
           <p class="text-gray-500">Aucun document bancaire</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -429,6 +552,7 @@ function loadBankDocuments() {
 function loadTaxesDocuments() {
   idbGetAllDocuments('taxes').then(stored => {
     const container = document.getElementById('documentsListTaxes');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('taxes')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -438,7 +562,17 @@ function loadTaxesDocuments() {
           <p class="text-gray-500">Aucun document fiscal</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -472,6 +606,7 @@ function loadTaxesDocuments() {
 function loadMobilityDocuments() {
   idbGetAllDocuments('mobility').then(stored => {
     const container = document.getElementById('documentsListMobility');
+    const shareAllBtn = document.querySelector("button[onclick=\"shareAllDocuments('mobility')\"]");
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
@@ -481,7 +616,17 @@ function loadMobilityDocuments() {
           <p class="text-gray-500">Aucun document de mobilité</p>
         </div>
       `;
+      if (shareAllBtn) {
+        shareAllBtn.classList.add('bg-green-500','opacity-50','cursor-not-allowed');
+        shareAllBtn.classList.remove('bg-green-600','hover:bg-green-700');
+        shareAllBtn.disabled = true;
+      }
       return;
+    }
+    if (shareAllBtn) {
+      shareAllBtn.classList.remove('bg-green-500','opacity-50','cursor-not-allowed');
+      shareAllBtn.classList.add('bg-green-600','hover:bg-green-700');
+      shareAllBtn.disabled = false;
     }
     container.innerHTML = stored.map(doc => `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
@@ -583,9 +728,33 @@ function deleteDocument(docId, category) {
 }
 
 // Partager un document
-function shareDocument(docId, category) {
+// Peut prendre un docId (string) ou une liste de documents (array)
+function shareDocument(docOrList, category) {
+  // Si c'est une liste de documents (partage multiple)
+  if (Array.isArray(docOrList)) {
+    const files = docOrList.map(doc => {
+      let fileExt = doc.type.startsWith('image/') ? '.jpg' : (doc.type === 'application/pdf' ? '.pdf' : '');
+      return fetch(doc.data)
+        .then(res => res.blob())
+        .then(blob => new File([blob], doc.name || ('document' + fileExt), { type: doc.type }));
+    });
+    Promise.all(files).then(filesArr => {
+      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
+      if (isMobile && navigator.share) {
+        navigator.share({
+          title: 'Documents partagés',
+          text: 'Voici mes documents',
+          files: filesArr
+        }).catch(() => {});
+      } else {
+        showNotification("Partage disponible uniquement sur mobile compatible.", "info");
+      }
+    });
+    return;
+  }
+  // Sinon, partage d'un seul document (docId)
   idbGetAllDocuments(category).then(stored => {
-    const doc = stored.find(d => d.id === docId);
+    const doc = stored.find(d => d.id === docOrList);
     if (!doc) return;
     const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
     if (isMobile && navigator.share) {
@@ -608,6 +777,8 @@ function shareDocument(docId, category) {
     showNotification("Partage disponible uniquement sur mobile compatible.", "info");
   });
 }
+
+// (supprimée : doublon inutile, la bonne fonction est plus haut)
 
 function shareAllDocuments(category) {
   idbGetAllDocuments(category).then(stored => {
