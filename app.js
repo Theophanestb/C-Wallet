@@ -1,3 +1,8 @@
+// Tronque un nom de fichier à 20 caractères max
+function truncateFileName(name, maxLength = 20) {
+  if (typeof name !== 'string') return '';
+  return name.length > maxLength ? name.slice(0, maxLength) : name;
+}
 /*
 */
 
@@ -172,7 +177,7 @@ function loadIdentityDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document d'identité</p>
@@ -198,7 +203,7 @@ function loadIdentityDocuments() {
           <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
@@ -247,7 +252,7 @@ function loadHealthDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document de santé</p>
@@ -273,7 +278,7 @@ function loadHealthDocuments() {
           <i class="fas ${getFileIcon(doc.type)} text-red-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
@@ -315,7 +320,7 @@ function loadHousingDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document de logement</p>
@@ -341,7 +346,7 @@ function loadHousingDocuments() {
           <i class="fas ${getFileIcon(doc.type)} text-green-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
@@ -385,7 +390,7 @@ function loadCafDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document de la CAF</p>
@@ -411,7 +416,7 @@ function loadCafDocuments() {
           <i class="fas ${getFileIcon(doc.type)} text-purple-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
@@ -453,7 +458,7 @@ function loadResourcesDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document de ressources</p>
@@ -475,16 +480,16 @@ function loadResourcesDocuments() {
       const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
       return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
-        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-4">
-          <i class="fas ${getFileIcon(doc.type)} text-orange-600"></i>
+        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
+          <i class="fas ${getFileIcon(doc.type)} text-yellow-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
-          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'resources')" class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center" title="Voir le document">
-            <i id="eye-icon-${doc.id}" class="fas fa-eye text-orange-600 text-sm"></i>
+          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'resources')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i id="eye-icon-${doc.id}" class="fas fa-eye text-yellow-600 text-sm"></i>
           </button>
           <button type="button" onclick="toggleSelectResourcesDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
@@ -521,7 +526,7 @@ function loadBankDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document bancaire</p>
@@ -547,7 +552,7 @@ function loadBankDocuments() {
           <i class="fas ${getFileIcon(doc.type)} text-blue-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
@@ -589,7 +594,7 @@ function loadTaxesDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document fiscal</p>
@@ -611,16 +616,16 @@ function loadTaxesDocuments() {
       const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
       return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
-        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-4">
-          <i class="fas ${getFileIcon(doc.type)} text-yellow-600"></i>
+        <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+          <i class="fas ${getFileIcon(doc.type)} text-gray-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
-          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'taxes')" class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center" title="Voir le document">
-            <i id="eye-icon-${doc.id}" class="fas fa-eye text-yellow-600 text-sm"></i>
+          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'taxes')" class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i id="eye-icon-${doc.id}" class="fas fa-eye text-gray-600 text-sm"></i>
           </button>
           <button type="button" onclick="toggleSelectTaxesDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>
@@ -657,7 +662,7 @@ function loadMobilityDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
+          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-gray-400 text-xl"></i>
           </div>
           <p class="text-gray-500">Aucun document de mobilité</p>
@@ -679,16 +684,16 @@ function loadMobilityDocuments() {
       const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
       return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
-        <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mr-4">
-          <i class="fas ${getFileIcon(doc.type)} text-pink-600"></i>
+        <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+          <i class="fas ${getFileIcon(doc.type)} text-gray-600"></i>
         </div>
         <div class="flex-1">
-          <h3 class="font-medium text-gray-800 truncate">${doc.name}</h3>
+          <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
-          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center" title="Voir le document">
-            <i id="eye-icon-${doc.id}" class="fas fa-eye text-pink-600 text-sm"></i>
+          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i id="eye-icon-${doc.id}" class="fas fa-eye text-gray-600 text-sm"></i>
           </button>
           <button type="button" onclick="toggleSelectMobilityDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>

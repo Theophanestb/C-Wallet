@@ -130,24 +130,24 @@
             </div>
           </div>
 
-          <!-- Mes impôts -->
-          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('taxes')">
-            <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mr-4">
-              <i class="fas fa-receipt text-gray-600 text-xl"></i>
+          <!-- Ma mobilité -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('mobility')">
+            <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-car text-gray-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800" data-i18n="Mes impôts">Mes impôts</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Ma mobilité">Ma mobilité</h3>
               
             </div>
           </div>
 
-          <!-- Ma mobilité -->
-          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('mobility')">
-            <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mr-4">
-              <i class="fas fa-car text-teal-600 text-xl"></i>
+          <!-- Mes impôts -->
+          <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('taxes')">
+            <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-receipt text-gray-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800" data-i18n="Ma mobilité">Ma mobilité</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Mes impôts">Mes impôts</h3>
               
             </div>
           </div>
@@ -180,19 +180,21 @@
             <i class="fas fa-upload mr-2"></i>
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
+          <!-- Boutons de partage -->
+          <div class="flex flex-col gap-2 mb-4">
+            <button onclick="shareAllDocuments('identity')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+              <i class="fas fa-share-alt mr-2"></i>
+              <span data-i18n="Partager tous les documents">Partager tous les documents</span>
+            </button>
+            <button id="shareSelectedBtn-identity" onclick="shareSelectedDocuments('identity')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+              <i class="fas fa-check-double mr-2"></i>
+              <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
-          <button onclick="shareAllDocuments('identity')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
-            <i class="fas fa-share-alt mr-2"></i>
-            <span data-i18n="Partager tous les documents">Partager tous les documents</span>
-          </button>
-          <button id="shareSelectedBtn-identity" onclick="shareSelectedDocuments('identity')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
-            <i class="fas fa-check-double mr-2"></i>
-            <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
-          </button>
-        </div>
+        
+        
 
         <!-- Liste des documents -->
         <div id="documentsList" class="space-y-3">
@@ -221,17 +223,17 @@
             <i class="fas fa-upload mr-2"></i>
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
-        </div>
+          <div class="flex flex-col gap-2 mb-4">
+            <button onclick="shareAllDocuments('health')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+              <i class="fas fa-share-alt mr-2"></i>
+              <span data-i18n="Partager tous les documents">Partager tous les documents</span>
+            </button>
+            <button id="shareSelectedBtn-health" onclick="shareSelectedDocuments('health')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+              <i class="fas fa-check-double mr-2"></i>
+              <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
+            </button>
+          </div>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
-          <button onclick="shareAllDocuments('health')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
-            <i class="fas fa-share-alt mr-2"></i>
-            <span data-i18n="Partager tous les documents">Partager tous les documents</span>
-          </button>
-          <button id="shareSelectedBtn-health" onclick="shareSelectedDocuments('health')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
-            <i class="fas fa-check-double mr-2"></i>
-            <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
-          </button>
         </div>
         <div id="documentsListHealth" class="space-y-3"></div>
       </div>
@@ -259,7 +261,7 @@
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex flex-col gap-2 mb-4">
           <button onclick="shareAllDocuments('housing')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
             <i class="fas fa-share-alt mr-2"></i>
             <span data-i18n="Partager tous les documents">Partager tous les documents</span>
@@ -297,7 +299,7 @@
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex flex-col gap-2 mb-4">
           <button onclick="shareAllDocuments('caf')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
             <i class="fas fa-share-alt mr-2"></i>
             <span data-i18n="Partager tous les documents">Partager tous les documents</span>
@@ -334,7 +336,7 @@
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex flex-col gap-2 mb-4">
           <button onclick="shareAllDocuments('resources')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
             <i class="fas fa-share-alt mr-2"></i>
             <span data-i18n="Partager tous les documents">Partager tous les documents</span>
@@ -371,7 +373,7 @@
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
+        <div class="flex flex-col gap-2 mb-4">
           <button onclick="shareAllDocuments('bank')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
             <i class="fas fa-share-alt mr-2"></i>
             <span data-i18n="Partager tous les documents">Partager tous les documents</span>
@@ -386,43 +388,6 @@
       </div>
     </div>
 
-    <!-- Page Mes impôts -->
-    <div id="taxesPage" class="min-h-screen p-4 hidden">
-      <div class="max-w-md mx-auto">
-        <div class="flex items-center mb-8 mt-6">
-          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
-            <i class="fas fa-arrow-left text-gray-600"></i>
-          </button>
-          <h1 class="text-white text-lg font-medium" data-i18n="Mes impôts">Mes impôts</h1>
-        </div>
-        <div class="bg-white rounded-xl p-6 mb-4">
-          <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-receipt text-gray-600 text-2xl"></i>
-            </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
-          </div>
-          <input type="file" id="fileInputTaxes" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'taxes')" />
-          <button onclick="document.getElementById('fileInputTaxes').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
-            <i class="fas fa-upload mr-2"></i>
-            <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
-          </button>
-        <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
-          <button onclick="shareAllDocuments('taxes')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
-            <i class="fas fa-share-alt mr-2"></i>
-            <span data-i18n="Partager tous les documents">Partager tous les documents</span>
-          </button>
-          <button id="shareSelectedBtn-taxes" onclick="shareSelectedDocuments('taxes')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
-            <i class="fas fa-check-double mr-2"></i>
-            <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
-          </button>
-        </div>
-        </div>
-        <div id="documentsListTaxes" class="space-y-3"></div>
-      </div>
-    </div>
-
     <!-- Page Ma mobilité -->
     <div id="mobilityPage" class="min-h-screen p-4 hidden">
       <div class="max-w-md mx-auto">
@@ -434,28 +399,66 @@
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-car text-teal-600 text-2xl"></i>
+            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-car text-gray-600 text-2xl"></i>
             </div>
             <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputMobility" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'mobility')" />
-         <button onclick="document.getElementById('fileInputMobility').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
+          <button onclick="document.getElementById('fileInputMobility').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
+          </button>
+          <!-- Boutons de partage -->
+          <div class="flex flex flex-col gap-2 mb-4">
+            <button onclick="shareAllDocuments('mobility')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+              <i class="fas fa-share-alt mr-2"></i>
+              <span data-i18n="Partager tous les documents">Partager tous les documents</span>
+            </button>
+            <button id="shareSelectedBtn-mobility" onclick="shareSelectedDocuments('mobility')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+              <i class="fas fa-check-double mr-2"></i>
+              <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
+            </button>
+          </div>
+        </div>
+        <div id="documentsListMobility" class="space-y-3"></div>
+      </div>
+    </div>
+
+    <!-- Page Mes impôts -->
+    <div id="taxesPage" class="min-h-screen p-4 hidden">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </button>
+          <h1 class="text-white text-lg font-medium" data-i18n="Mes impôts">Mes impôts</h1>
+        </div>
+        <div class="bg-white rounded-xl p-6 mb-4">
+          <div class="text-center mb-6">
+            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-receipt text-gray-600 text-2xl"></i>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
+          </div>
+          <input type="file" id="fileInputTaxes" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'taxes')" />
+          <button onclick="document.getElementById('fileInputTaxes').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
+            <i class="fas fa-upload mr-2"></i>
+            <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
+          </button>
         <!-- Boutons de partage -->
-        <div class="flex items-center gap-2 mb-4">
-          <button onclick="shareAllDocuments('mobility')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
+        <div class="flex flex-col gap-2 mb-4">
+          <button onclick="shareAllDocuments('taxes')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
             <i class="fas fa-share-alt mr-2"></i>
             <span data-i18n="Partager tous les documents">Partager tous les documents</span>
           </button>
-          <button id="shareSelectedBtn-mobility" onclick="shareSelectedDocuments('mobility')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
+          <button id="shareSelectedBtn-taxes" onclick="shareSelectedDocuments('taxes')" class="bg-green-500 text-white px-4 py-2 rounded-lg font-medium opacity-50 cursor-not-allowed" disabled>
             <i class="fas fa-check-double mr-2"></i>
             <span data-i18n="Partager les documents sélectionnés">Partager les documents sélectionnés</span>
           </button>
         </div>
         </div>
-        <div id="documentsListMobility" class="space-y-3"></div>
+        <div id="documentsListTaxes" class="space-y-3"></div>
       </div>
     </div>
 
