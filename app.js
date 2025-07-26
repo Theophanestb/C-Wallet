@@ -1,5 +1,5 @@
-// Tronque un nom de fichier à 20 caractères max
-function truncateFileName(name, maxLength = 20) {
+// Tronque un nom de fichier à 18 caractères max
+function truncateFileName(name, maxLength = 18) {
   if (typeof name !== 'string') return '';
   return name.length > maxLength ? name.slice(0, maxLength) : name;
 }
@@ -662,10 +662,10 @@ function loadMobilityDocuments() {
     if (!stored || stored.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-xl p-6 text-center">
-          <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
-            <i class="fas fa-folder-open text-gray-400 text-xl"></i>
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-folder-open text-blue-400 text-xl"></i>
           </div>
-          <p class="text-gray-500">Aucun document de mobilité</p>
+          <p class="text-blue-400">Aucun document de mobilité</p>
         </div>
       `;
       if (shareAllBtn) {
@@ -684,16 +684,16 @@ function loadMobilityDocuments() {
       const isSelected = window.selectedDocs && window.selectedDocs.has(doc.id);
       return `
       <div class="bg-white rounded-xl p-4 flex items-center relative" id="doc-row-${doc.id}">
-        <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
-          <i class="fas ${getFileIcon(doc.type)} text-gray-600"></i>
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+          <i class="fas ${getFileIcon(doc.type)} text-blue-400"></i>
         </div>
         <div class="flex-1">
           <h3 class="font-medium text-gray-800 truncate">${truncateFileName(doc.name)}</h3>
           <p class="text-sm text-gray-500">${formatFileSize(doc.size)} • ${formatDate(doc.dateAdded)}</p>
         </div>
         <div class="flex space-x-2">
-          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-gray-200 rounded-lg flex items-center justify-center" title="Voir le document">
-            <i id="eye-icon-${doc.id}" class="fas fa-eye text-gray-600 text-sm"></i>
+          <button id="eye-btn-${doc.id}" onclick="viewDocument('${doc.id}', 'mobility')" class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center" title="Voir le document">
+            <i id="eye-icon-${doc.id}" class="fas fa-eye text-blue-400 text-sm"></i>
           </button>
           <button type="button" onclick="toggleSelectMobilityDoc('${doc.id}', this)" class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center${isSelected ? ' ring-2 ring-blue-500' : ''}" title="Sélectionner pour partage">
             <i class="fas fa-share-alt text-green-600 text-sm"></i>

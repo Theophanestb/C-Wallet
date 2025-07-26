@@ -132,8 +132,8 @@
 
           <!-- Ma mobilité -->
           <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('mobility')">
-            <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
-              <i class="fas fa-car text-gray-600 text-xl"></i>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+              <i class="fas fa-car text-blue-400 text-xl"></i>
             </div>
             <div class="flex-1">
               <h3 class="font-semibold text-gray-800" data-i18n="Ma mobilité">Ma mobilité</h3>
@@ -144,7 +144,7 @@
           <!-- Mes impôts -->
           <div class="category-card bg-white rounded-xl p-4 flex items-center cursor-pointer" onclick="openCategory('taxes')">
             <div class="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center mr-4">
-              <i class="fas fa-receipt text-gray-600 text-xl"></i>
+              <i class="fas fa-receipt text-gray-400 text-xl"></i>
             </div>
             <div class="flex-1">
               <h3 class="font-semibold text-gray-800" data-i18n="Mes impôts">Mes impôts</h3>
@@ -393,19 +393,19 @@
       <div class="max-w-md mx-auto">
         <div class="flex items-center mb-8 mt-6">
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
-            <i class="fas fa-arrow-left text-gray-600"></i>
+            <i class="fas fa-arrow-left text-blue-400"></i>
           </button>
           <h1 class="text-white text-lg font-medium" data-i18n="Ma mobilité">Ma mobilité</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
-            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-car text-gray-600 text-2xl"></i>
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <i class="fas fa-car text-blue-400 text-2xl"></i>
             </div>
             <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputMobility" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'mobility')" />
-          <button onclick="document.getElementById('fileInputMobility').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
+          <button onclick="document.getElementById('fileInputMobility').click()" class="w-full bg-blue-400 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
@@ -491,6 +491,9 @@
         }
       }
     </script>
+    <div class="w-full text-center text-xs text-gray-400 mt-8 mb-2">
+      Source : <a href="" target="_blank" class="underline text-blue-400 hover:text-blue-600">texteDuLien</a>
+    </div>
 
     <script>
       const translations = {
