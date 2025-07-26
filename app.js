@@ -665,7 +665,7 @@ function loadMobilityDocuments() {
           <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
             <i class="fas fa-folder-open text-blue-400 text-xl"></i>
           </div>
-          <p class="text-blue-400">Aucun document de mobilité</p>
+          <p class="text-gray-500">Aucun document de mobilité</p>
         </div>
       `;
       if (shareAllBtn) {
