@@ -49,6 +49,15 @@
             <div class="relative">
               <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer" id="translateBtn" title="Traduire">
                 <span class="material-icons text-gray-600 text-2xl">translate</span>
+                <select id="langSelect" class="bg-white text-gray-600 text-sm outline-none border-none absolute right-0 mt-2" style="display:none; min-width:120px;">
+                  <option value="fr">Français</option>
+                  <option value="en">English</option>
+                  <option value="ru">Русский</option>
+                  <option value="ar">العربية</option>
+                  <option value="ti">ትግርኛ</option>
+                  <option value="fa">دری</option>
+                  <option value="ps">پښتو</option>
+                </select>
               </div>
             </div>
           </div>
@@ -62,7 +71,7 @@
               <i class="fas fa-id-card text-blue-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Mon identité</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Mon identité">Mon identité</h3>
             </div>
           </div>
 
@@ -72,7 +81,7 @@
               <i class="fas fa-heart text-red-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Ma santé</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Ma santé">Ma santé</h3>
               
             </div>
           </div>
@@ -83,7 +92,7 @@
               <i class="fas fa-home text-green-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Mon logement</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Mon logement">Mon logement</h3>
               
             </div>
           </div>
@@ -94,7 +103,7 @@
               <i class="fas fa-users text-purple-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Ma CAF</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Ma CAF">Ma CAF</h3>
               
             </div>
           </div>
@@ -105,7 +114,7 @@
               <i class="fas fa-coins text-yellow-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Mes ressources</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Mes ressources">Mes ressources</h3>
               
             </div>
           </div>
@@ -116,7 +125,7 @@
               <i class="fas fa-university text-indigo-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Ma banque</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Ma banque">Ma banque</h3>
               
             </div>
           </div>
@@ -127,7 +136,7 @@
               <i class="fas fa-receipt text-gray-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Mes impôts</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Mes impôts">Mes impôts</h3>
               
             </div>
           </div>
@@ -138,7 +147,7 @@
               <i class="fas fa-car text-teal-600 text-xl"></i>
             </div>
             <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Ma mobilité</h3>
+              <h3 class="font-semibold text-gray-800" data-i18n="Ma mobilité">Ma mobilité</h3>
               
             </div>
           </div>
@@ -154,7 +163,7 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Mon identité</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Mon identité">Mon identité</h1>
         </div>
 
         <!-- Zone d'ajout de document -->
@@ -163,13 +172,13 @@
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-id-card text-blue-600 text-xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
 
           <input type="file" id="fileInput" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'identity')" />
           <button onclick="document.getElementById('fileInput').click()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
 
@@ -186,19 +195,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Ma santé</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Ma santé">Ma santé</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-heart text-red-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputHealth" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'health')" />
           <button onclick="document.getElementById('fileInputHealth').click()" class="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-red-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListHealth" class="space-y-3"></div>
@@ -212,19 +221,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Mon logement</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Mon logement">Mon logement</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-home text-green-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputHousing" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'housing')" />
           <button onclick="document.getElementById('fileInputHousing').click()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListHousing" class="space-y-3"></div>
@@ -238,19 +247,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Ma CAF</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Ma CAF">Ma CAF</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-users text-purple-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputCaf" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'caf')" />
           <button onclick="document.getElementById('fileInputCaf').click()" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListCaf" class="space-y-3"></div>
@@ -264,19 +273,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Mes ressources</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Mes ressources">Mes ressources</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-coins text-yellow-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputResources" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'resources')" />
           <button onclick="document.getElementById('fileInputResources').click()" class="w-full bg-yellow-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-yellow-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListResources" class="space-y-3"></div>
@@ -290,19 +299,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Ma banque</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Ma banque">Ma banque</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-university text-indigo-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputBank" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'bank')" />
           <button onclick="document.getElementById('fileInputBank').click()" class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListBank" class="space-y-3"></div>
@@ -316,19 +325,19 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Mes impôts</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Mes impôts">Mes impôts</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
             <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <i class="fas fa-receipt text-gray-600 text-2xl"></i>
             </div>
-            <h2 class="text-lg font-semibold text-gray-800 mb-2">Ajouter un document</h2>
+            <h2 class="text-lg font-semibold text-gray-800 mb-2" data-i18n="Ajouter un document">Ajouter un document</h2>
           </div>
           <input type="file" id="fileInputTaxes" class="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="handleFileSelect(event, 'taxes')" />
           <button onclick="document.getElementById('fileInputTaxes').click()" class="w-full bg-gray-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-700 transition-colors mb-4">
             <i class="fas fa-upload mr-2"></i>
-            Sélectionner un fichier / Prendre une photo
+            <span data-i18n="Sélectionner un fichier / Prendre une photo">Sélectionner un fichier / Prendre une photo</span>
           </button>
         </div>
         <div id="documentsListTaxes" class="space-y-3"></div>
@@ -342,7 +351,7 @@
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
             <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
-          <h1 class="text-white text-lg font-medium">Ma mobilité</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Ma mobilité">Ma mobilité</h1>
         </div>
         <div class="bg-white rounded-xl p-6 mb-4">
           <div class="text-center mb-6">
@@ -393,136 +402,136 @@
     <script>
       const translations = {
         en: {
-          "Bienvenue dans votre C-Wallet": "Welcome to your C-Wallet",
-          "Mon identité": "My ID",
-          "Ma santé": "My Health",
-          "Mon logement": "My Housing",
-          "Ma CAF": "My CAF",
-          "Mes ressources": "My Resources",
-          "Ma banque": "My Bank",
-          "Mes impôts": "My Taxes",
-          "Ma mobilité": "My Mobility",
-          "Ajouter un document": "Add a document",
-          "Sélectionner un fichier / Prendre une photo": "Select a file / Take a photo",
-          "Aucun document": "No document",
-          "Aucun document de la CAF": "No CAF document",
-          "Aucun document de ressources": "No resource document",
-          "Aucun document bancaire": "No bank document",
-          "Aucun document fiscal": "No tax document",
-          "Aucun document de mobilité": "No mobility document",
-          "Aucun document de logement": "No housing document",
-          "Aucun document de santé": "No health document",
-          "Aucun document d'identité": "No ID document"
+          "Bienvenue dans votre C-Wallet": "Welcome to your C-Wallet<br/>Bienvenue dans votre C-Wallet",
+          "Mon identité": "My ID / Mon identité",
+          "Ma santé": "My Health / Ma santé",
+          "Mon logement": "My Housing / Mon logement",
+          "Ma CAF": "My CAF / Ma CAF",
+          "Mes ressources": "My Resources / Mes ressources",
+          "Ma banque": "My Bank / Ma banque",
+          "Mes impôts": "My Taxes / Mes impôts",
+          "Ma mobilité": "My Mobility / Ma mobilité",
+          "Ajouter un document": "Add a document / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "Select a file / Take a photo / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "No document / Aucun document",
+          "Aucun document de la CAF": "No CAF document / Aucun document de la CAF",
+          "Aucun document de ressources": "No resource document / Aucun document de ressources",
+          "Aucun document bancaire": "No bank document / Aucun document bancaire",
+          "Aucun document fiscal": "No tax document / Aucun document fiscal",
+          "Aucun document de mobilité": "No mobility document / Aucun document de mobilité",
+          "Aucun document de logement": "No housing document / Aucun document de logement",
+          "Aucun document de santé": "No health document / Aucun document de santé",
+          "Aucun document d'identité": "No ID document / Aucun document d'identité"
         },
         ru: {
-          "Bienvenue dans votre C-Wallet": "Добро пожаловать в ваш C-Wallet",
-          "Mon identité": "Моя личность",
-          "Ma santé": "Моё здоровье",
-          "Mon logement": "Моё жильё",
-          "Ma CAF": "Моя CAF",
-          "Mes ressources": "Мои ресурсы",
-          "Ma banque": "Мой банк",
-          "Mes impôts": "Мои налоги",
-          "Ma mobilité": "Моя мобильность",
-          "Ajouter un document": "Добавить документ",
-          "Sélectionner un fichier / Prendre une photo": "Выбрать файл / Сделать фото",
-          "Aucun document": "Нет документов",
-          "Aucun document de la CAF": "Нет документов CAF",
-          "Aucun document de ressources": "Нет документов о ресурсах",
-          "Aucun document bancaire": "Нет банковских документов",
-          "Aucun document fiscal": "Нет налоговых документов",
-          "Aucun document de mobilité": "Нет документов о мобильности",
-          "Aucun document de logement": "Нет документов о жилье",
-          "Aucun document de santé": "Нет медицинских документов",
-          "Aucun document d'identité": "Нет удостоверения личности"
+          "Bienvenue dans votre C-Wallet": "Добро пожаловать в ваш C-Wallet<br/>Bienvenue dans votre C-Walle",
+          "Mon identité": "Моя личность / Mon identité",
+          "Ma santé": "Моё здоровье / Ma santé",
+          "Mon logement": "Моё жильё / Mon logement",
+          "Ma CAF": "Моя CAF / Ma CAF",
+          "Mes ressources": "Мои ресурсы / Mes ressources",
+          "Ma banque": "Мой банк / Ma banque",
+          "Mes impôts": "Мои налоги / Mes impôts",
+          "Ma mobilité": "Моя мобильность / Ma mobilité",
+          "Ajouter un document": "Добавить документ / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "Выбрать файл / Сделать фото / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "Нет документов / Aucun document",
+          "Aucun document de la CAF": "Нет документов CAF / Aucun document de la CAF",
+          "Aucun document de ressources": "Нет документов о ресурсах / Aucun document de ressources",
+          "Aucun document bancaire": "Нет банковских документов / Aucun document bancaire",
+          "Aucun document fiscal": "Нет налоговых документов / Aucun document fiscal",
+          "Aucun document de mobilité": "Нет документов о мобильности / Aucun document de mobilité",
+          "Aucun document de logement": "Нет документов о жилье / Aucun document de logement",
+          "Aucun document de santé": "Нет медицинских документов / Aucun document de santé",
+          "Aucun document d'identité": "Нет удостоверения личности / Aucun document d'identité"
         },
         ar: {
-          "Bienvenue dans votre C-Wallet": "مرحبًا بك في محفظتك الإلكترونية",
-          "Mon identité": "هويتي",
-          "Ma santé": "صحتي",
-          "Mon logement": "سكني",
-          "Ma CAF": "صندوق إعانتي",
-          "Mes ressources": "مواردي",
-          "Ma banque": "بنكـي",
-          "Mes impôts": "ضرائبي",
-          "Ma mobilité": "تنقلي",
-          "Ajouter un document": "إضافة مستند",
-          "Sélectionner un fichier / Prendre une photo": "اختر ملفًا / التقط صورة",
-          "Aucun document": "لا يوجد مستند",
-          "Aucun document de la CAF": "لا يوجد مستند لصندوق الإعانة",
-          "Aucun document de ressources": "لا يوجد مستند للموارد",
-          "Aucun document bancaire": "لا يوجد مستند بنكي",
-          "Aucun document fiscal": "لا يوجد مستند ضريبي",
-          "Aucun document de mobilité": "لا يوجد مستند للتنقل",
-          "Aucun document de logement": "لا يوجد مستند للسكن",
-          "Aucun document de santé": "لا يوجد مستند صحي",
-          "Aucun document d'identité": "لا يوجد مستند هوية"
+          "Bienvenue dans votre C-Wallet": "مرحبًا بك في محفظتك الإلكترونية<br/>Bienvenue dans votre C-Walle",
+          "Mon identité": "هويتي / Mon identité",
+          "Ma santé": "صحتي / Ma santé",
+          "Mon logement": "سكني / Mon logement",
+          "Ma CAF": "صندوق إعانتي / Ma CAF",
+          "Mes ressources": "مواردي / Mes ressources",
+          "Ma banque": "بنكـي / Ma banque",
+          "Mes impôts": "ضرائبي / Mes impôts",
+          "Ma mobilité": "تنقلي / Ma mobilité",
+          "Ajouter un document": "إضافة مستند / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "اختر ملفًا / التقط صورة / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "لا يوجد مستند / Aucun document",
+          "Aucun document de la CAF": "لا يوجد مستند لصندوق الإعانة / Aucun document de la CAF",
+          "Aucun document de ressources": "لا يوجد مستند للموارد / Aucun document de ressources",
+          "Aucun document bancaire": "لا يوجد مستند بنكي / Aucun document bancaire",
+          "Aucun document fiscal": "لا يوجد مستند ضريبي / Aucun document fiscal",
+          "Aucun document de mobilité": "لا يوجد مستند للتنقل / Aucun document de mobilité",
+          "Aucun document de logement": "لا يوجد مستند للسكن / Aucun document de logement",
+          "Aucun document de santé": "لا يوجد مستند صحي / Aucun document de santé",
+          "Aucun document d'identité": "لا يوجد مستند هوية / Aucun document d'identité"
         },
         ti: {
-          "Bienvenue dans votre C-Wallet": "እንቋዕ ብደሓን መጻእኩም ናብ C-Wallet",
-          "Mon identité": "ናይ ሓንቲ መለክዒ",
-          "Ma santé": "ጥዕናይ",
-          "Mon logement": "መኖርያይ",
-          "Ma CAF": "CAF የውን",
-          "Mes ressources": "ሓበሬታይ",
-          "Ma banque": "ባንክየ",
-          "Mes impôts": "ግብሪየ",
-          "Ma mobilité": "ንቅናቄየ",
-          "Ajouter un document": "መዝገብ ኣእትው",
-          "Sélectionner un fichier / Prendre une photo": "ፋይል ምረፅ / ፎቶ ኣንስኡ",
-          "Aucun document": "መዝገብ የለን",
-          "Aucun document de la CAF": "መዝገብ CAF የለን",
-          "Aucun document de ressources": "መዝገብ ሓበሬታ የለን",
-          "Aucun document bancaire": "መዝገብ ባንክ የለን",
-          "Aucun document fiscal": "መዝገብ ግብሪ የለን",
-          "Aucun document de mobilité": "መዝገብ ንቅናቄ የለን",
-          "Aucun document de logement": "መዝገብ መኖርያ የለን",
-          "Aucun document de santé": "መዝገብ ጥዕና የለን",
-          "Aucun document d'identité": "መዝገብ መለክዒ የለን"
+          "Bienvenue dans votre C-Wallet": "እንቋዕ ብደሓን መጻእኩም ናብ C-Wallet<br/>Bienvenue dans votre C-Walle",
+          "Mon identité": "ናይ ሓንቲ መለክዒ / Mon identité",
+          "Ma santé": "ጥዕናይ / Ma santé",
+          "Mon logement": "መኖርያይ / Mon logement",
+          "Ma CAF": "CAF የውን / Ma CAF",
+          "Mes ressources": "ሓበሬታይ / Mes ressources",
+          "Ma banque": "ባንክየ / Ma banque",
+          "Mes impôts": "ግብሪየ / Mes impôts",
+          "Ma mobilité": "ንቅናቄየ / Ma mobilité",
+          "Ajouter un document": "መዝገብ ኣእትው / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "ፋይል ምረፅ / ፎቶ ኣንስኡ / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "መዝገብ የለን / Aucun document",
+          "Aucun document de la CAF": "መዝገብ CAF የለን / Aucun document de la CAF",
+          "Aucun document de ressources": "መዝገብ ሓበሬታ የለን / Aucun document de ressources",
+          "Aucun document bancaire": "መዝገብ ባንክ የለን / Aucun document bancaire",
+          "Aucun document fiscal": "መዝገብ ግብሪ የለን / Aucun document fiscal",
+          "Aucun document de mobilité": "መዝገብ ንቅናቄ የለን / Aucun document de mobilité",
+          "Aucun document de logement": "መዝገብ መኖርያ የለን / Aucun document de logement",
+          "Aucun document de santé": "መዝገብ ጥዕና የለን / Aucun document de santé",
+          "Aucun document d'identité": "መዝገብ መለክዒ የለን / Aucun document d'identité"
         },
         fa: { // Dari (فارسی)
-          "Bienvenue dans votre C-Wallet": "به C-Wallet خوش آمدید",
-          "Mon identité": "هویت من",
-          "Ma santé": "سلامتی من",
-          "Mon logement": "محل سکونت من",
-          "Ma CAF": "کاف من",
-          "Mes ressources": "منابع من",
-          "Ma banque": "بانک من",
-          "Mes impôts": "مالیات من",
-          "Ma mobilité": "تحرک من",
-          "Ajouter un document": "افزودن سند",
-          "Sélectionner un fichier / Prendre une photo": "انتخاب فایل / گرفتن عکس",
-          "Aucun document": "سندی وجود ندارد",
-          "Aucun document de la CAF": "سند کاف وجود ندارد",
-          "Aucun document de ressources": "سند منابع وجود ندارد",
-          "Aucun document bancaire": "سند بانکی وجود ندارد",
-          "Aucun document fiscal": "سند مالیاتی وجود ندارد",
-          "Aucun document de mobilité": "سند تحرک وجود ندارد",
-          "Aucun document de logement": "سند محل سکونت وجود ندارد",
-          "Aucun document de santé": "سند سلامتی وجود ندارد",
-          "Aucun document d'identité": "سند هویت وجود ندارد"
+          "Bienvenue dans votre C-Wallet": "به C-Wallet خوش آمدید<br/>Bienvenue dans votre C-Walle",
+          "Mon identité": "هویت من / Mon identité",
+          "Ma santé": "سلامتی من / Ma santé",
+          "Mon logement": "محل سکونت من / Mon logement",
+          "Ma CAF": "کاف من / Ma CAF",
+          "Mes ressources": "منابع من / Mes ressources",
+          "Ma banque": "بانک من / Ma banque",
+          "Mes impôts": "مالیات من / Mes impôts",
+          "Ma mobilité": "تحرک من / Ma mobilité",
+          "Ajouter un document": "افزودن سند / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "انتخاب فایل / گرفتن عکس / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "سندی وجود ندارد / Aucun document",
+          "Aucun document de la CAF": "سند کاف وجود ندارد / Aucun document de la CAF",
+          "Aucun document de ressources": "سند منابع وجود ندارد / Aucun document de ressources",
+          "Aucun document bancaire": "سند بانکی وجود ندارد / Aucun document bancaire",
+          "Aucun document fiscal": "سند مالیاتی وجود ندارد / Aucun document fiscal",
+          "Aucun document de mobilité": "سند تحرک وجود ندارد / Aucun document de mobilité",
+          "Aucun document de logement": "سند محل سکونت وجود ندارد / Aucun document de logement",
+          "Aucun document de santé": "سند سلامتی وجود ندارد / Aucun document de santé",
+          "Aucun document d'identité": "سند هویت وجود ندارد / Aucun document d'identité"
         },
         ps: { // Pachto (پښتو)
-          "Bienvenue dans votre C-Wallet": "ستاسو C-Wallet ته ښه راغلاست",
-          "Mon identité": "زما پېژندنه",
-          "Ma santé": "زما روغتیا",
-          "Mon logement": "زما استوګنځی",
-          "Ma CAF": "زما CAF",
-          "Mes ressources": "زما سرچینې",
-          "Ma banque": "زما بانک",
-          "Mes impôts": "زما مالیات",
-          "Ma mobilité": "زما خوځښت",
-          "Ajouter un document": "سند اضافه کړئ",
-          "Sélectionner un fichier / Prendre une photo": "فایل غوره کړئ / عکس واخلئ",
-          "Aucun document": "هیڅ سند نشته",
-          "Aucun document de la CAF": "د CAF سند نشته",
-          "Aucun document de ressources": "د سرچینو سند نشته",
-          "Aucun document bancaire": "د بانک سند نشته",
-          "Aucun document fiscal": "د مالیاتو سند نشته",
-          "Aucun document de mobilité": "د خوځښت سند نشته",
-          "Aucun document de logement": "د استوګنې سند نشته",
-          "Aucun document de santé": "د روغتیا سند نشته",
-          "Aucun document d'identité": "د پېژندنې سند نشته"
+          "Bienvenue dans votre C-Wallet": "ستاسو C-Wallet ته ښه راغلاست<br/>Bienvenue dans votre C-Walle",
+          "Mon identité": "زما پېژندنه / Mon identité",
+          "Ma santé": "زما روغتیا / Ma santé",
+          "Mon logement": "زما استوګنځی / Mon logement",
+          "Ma CAF": "زما CAF / Ma CAF",
+          "Mes ressources": "زما سرچینې / Mes ressources",
+          "Ma banque": "زما بانک / Ma banque",
+          "Mes impôts": "زما مالیات / Mes impôts",
+          "Ma mobilité": "زما خوځښت / Ma mobilité",
+          "Ajouter un document": "سند اضافه کړئ / Ajouter un document",
+          "Sélectionner un fichier / Prendre une photo": "فایل غوره کړئ / عکس واخلئ / Sélectionner un fichier / Prendre une photo",
+          "Aucun document": "هیڅ سند نشته / Aucun document",
+          "Aucun document de la CAF": "د CAF سند نشته / Aucun document de la CAF",
+          "Aucun document de ressources": "د سرچینو سند نشته / Aucun document de ressources",
+          "Aucun document bancaire": "د بانک سند نشته / Aucun document bancaire",
+          "Aucun document fiscal": "د مالیاتو سند نشته / Aucun document fiscal",
+          "Aucun document de mobilité": "د خوځښت سند نشته / Aucun document de mobilité",
+          "Aucun document de logement": "د استوګنې سند نشته / Aucun document de logement",
+          "Aucun document de santé": "د روغتیا سند نشته / Aucun document de santé",
+          "Aucun document d'identité": "د پېژندنې سند نشته / Aucun document d'identité"
         },
         fr: {}
       };
@@ -534,16 +543,30 @@
         document.querySelectorAll('[data-i18n]').forEach(el => {
           const key = el.getAttribute('data-i18n');
           if (translations[lang][key]) {
-            el.textContent = translations[lang][key];
+            el.innerHTML = translations[lang][key];
           } else if (lang === 'fr') {
-            el.textContent = key;
+            el.innerHTML = key;
           }
         });
       }
 
-      // Ajoute l'écouteur sur le bouton
+      // Affiche/masque le select au clic sur le bouton translate
+      document.getElementById('translateBtn').onclick = function(e) {
+        e.stopPropagation();
+        const select = document.getElementById('langSelect');
+        select.style.display = select.style.display === 'block' ? 'none' : 'block';
+      };
+      // Empêche la fermeture du menu lors du clic sur le select
+      document.getElementById('langSelect').addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+      // Ferme le menu si on clique ailleurs
+      document.addEventListener('click', function() {
+        document.getElementById('langSelect').style.display = 'none';
+      });
       document.getElementById('langSelect').onchange = function() {
         translatePage(this.value);
+        this.style.display = 'none';
       };
       </script>
   </body>
