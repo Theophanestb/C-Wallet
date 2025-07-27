@@ -49,15 +49,15 @@
             <div class="relative">
               <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer" id="translateBtn" title="Traduire">
                 <span class="material-icons text-gray-600 text-2xl">translate</span>
-                <select id="langSelect" class="bg-white text-gray-600 text-sm outline-none border-none absolute right-0 mt-2" style="display:none; min-width:120px;">
-                  <option value="fr">Français</option>
-                  <option value="en">English</option>
-                  <option value="ru">Русский</option>
-                  <option value="ar">العربية</option>
-                  <option value="ti">ትግርኛ</option>
-                  <option value="fa">دری</option>
-                  <option value="ps">پښتو</option>
-                </select>
+                <div id="langDropdown" class="hidden absolute top-12 right-0 z-50 bg-white rounded shadow p-2 space-y-2">
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="fr">Français</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="en">English</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="ru">Русский</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="ar">العربية</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="ti">ትግርኛ</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="fa">دری</div>
+                  <div class="cursor-pointer text-sm text-gray-700" data-lang="ps">پښتو</div>
+                </div>
               </div>
             </div>
           </div>
@@ -658,24 +658,26 @@
         });
       }
 
-      // Affiche/masque le select au clic sur le bouton translate
-      document.getElementById('translateBtn').onclick = function(e) {
-        e.stopPropagation();
-        const select = document.getElementById('langSelect');
-        select.style.display = select.style.display === 'block' ? 'none' : 'block';
-      };
-      // Empêche la fermeture du menu lors du clic sur le select
-      document.getElementById('langSelect').addEventListener('click', function(e) {
-        e.stopPropagation();
-      });
-      // Ferme le menu si on clique ailleurs
-      document.addEventListener('click', function() {
-        document.getElementById('langSelect').style.display = 'none';
-      });
-      document.getElementById('langSelect').onchange = function() {
-        translatePage(this.value);
-        this.style.display = 'none';
-      };
+      const dropdown = document.getElementById('langDropdown');
+const translateBtn = document.getElementById('translateBtn');
+
+translateBtn.onclick = function (e) {
+  e.stopPropagation();
+  dropdown.classList.toggle('hidden');
+};
+
+document.addEventListener('click', function () {
+  dropdown.classList.add('hidden');
+});
+
+dropdown.addEventListener('click', function (e) {
+  e.stopPropagation();
+  if (e.target.dataset.lang) {
+    translatePage(e.target.dataset.lang);
+    dropdown.classList.add('hidden');
+  }
+});
+
       </script>
   </body>
 </html>
