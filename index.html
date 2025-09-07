@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>C-Wallet</title>
+    <title>CeCler-Wallet</title>
     <style>
       .category-card {
         transition: all 0.3s ease;
@@ -22,7 +22,7 @@
         transform: translateY(0);
       }
       body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #F39C12 0%, #F1C40F 50%, #D35400 100%);
         min-height: 100vh;
       }
       #langSelect {
@@ -44,8 +44,9 @@
       <!-- Header -->
       <div class="max-w-md mx-auto">
         <div class="flex items-center justify-between mb-8 mt-6">
-          <h1 class="text-white text-lg font-medium" data-i18n="Bienvenue dans votre C-Wallet">Bienvenue dans votre C-Wallet</h1>
+          <h1 class="text-white text-lg font-medium" data-i18n="Bienvenue dans votre CeCler-Wallet">Bienvenue dans CéCler-Wallet </h1>
           <div class="flex items-center space-x-3">
+            <img src="./icons/logo_Cecler.jpeg" alt="Logo CeCler" class="w-90 h-10 object-cover shadow" />
             <div class="relative">
               <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer" id="translateBtn" title="Traduire">
                 <span class="material-icons text-gray-600 text-2xl">translate</span>
@@ -659,24 +660,24 @@
       }
 
       const dropdown = document.getElementById('langDropdown');
-const translateBtn = document.getElementById('translateBtn');
+      const translateBtn = document.getElementById('translateBtn');
 
-translateBtn.onclick = function (e) {
-  e.stopPropagation();
-  dropdown.classList.toggle('hidden');
-};
+      translateBtn.onclick = function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('hidden');
+      };
 
-document.addEventListener('click', function () {
-  dropdown.classList.add('hidden');
-});
+      document.addEventListener('click', function () {
+        dropdown.classList.add('hidden');
+      });
 
-dropdown.addEventListener('click', function (e) {
-  e.stopPropagation();
-  if (e.target.dataset.lang) {
-    translatePage(e.target.dataset.lang);
-    dropdown.classList.add('hidden');
-  }
-});
+      dropdown.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (e.target.dataset.lang) {
+          translatePage(e.target.dataset.lang);
+          dropdown.classList.add('hidden');
+        }
+      });
 
       </script>
   </body>
