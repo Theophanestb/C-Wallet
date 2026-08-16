@@ -25,9 +25,18 @@
       .category-card:active {
         transform: translateY(0);
       }
+      * {
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 100%;
+        overflow-x: hidden;
+      }
       body {
         background: linear-gradient(135deg, #F39C12 0%, #F1C40F 50%, #D35400 100%);
         min-height: 100vh;
+        margin: 0;
+        padding: 0;
       }
       #langSelect {
         display: none;
@@ -40,6 +49,20 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         padding: 0.5rem 1rem;
       }
+      .min-h-screen {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      @media (max-width: 640px) {
+        .max-w-md {
+          max-width: 100%;
+          padding: 0;
+        }
+        body {
+          font-size: 14px;
+        }
+      }
     </style>
   </head>
   <body class="text-gray-800">
@@ -47,14 +70,14 @@
     <div id="homePage" class="min-h-screen p-4">
       <!-- Header -->
       <div class="max-w-md mx-auto">
-        <div class="flex items-center justify-between mb-8 mt-6">
+        <div class="flex items-center justify-between gap-2 mb-8 mt-6 flex-wrap sm:flex-nowrap">
           <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer">
-            <img src="./icons/logo_Cecler.jpeg" 
-                alt="Logo CeCler" 
-                class="w-90 h-10 object-cover shadow rounded-lg cursor-pointer" />
+            <img src="./icons/logo_Cecler.jpeg"
+                alt="Logo CeCler"
+                class="h-10 w-20 sm:w-32 object-cover shadow rounded-lg cursor-pointer flex-shrink-0" />
           </a>
-          <h1 class="text-white text-lg font-medium" data-i18n="Bienvenue dans votre CeCler-Wallet">Bienvenue dans CéCler-Wallet</h1>
-          <div class="flex items-center space-x-3">
+          <h1 class="text-white text-xs sm:text-lg font-medium flex-1 text-center px-2" data-i18n="Bienvenue dans votre CeCler-Wallet">Bienvenue dans CéCler-Wallet</h1>
+          <div class="flex items-center space-x-3 flex-shrink-0">
             
             <div class="relative">
               <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer" id="translateBtn" title="Traduire">
@@ -403,7 +426,7 @@
       <div class="max-w-md mx-auto">
         <div class="flex items-center mb-8 mt-6">
           <button onclick="goBack()" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4">
-            <i class="fas fa-arrow-left text-blue-400"></i>
+            <i class="fas fa-arrow-left text-gray-600"></i>
           </button>
           <h1 class="text-white text-lg font-medium" data-i18n="Ma mobilité">Ma mobilité</h1>
         </div>
@@ -420,7 +443,7 @@
             <span data-i18n="Sélectionner un fichier - Prendre une photo">Sélectionner un fichier - Prendre une photo</span>
           </button>
           <!-- Boutons de partage -->
-          <div class="flex flex flex-col gap-2 mb-4">
+          <div class="flex flex-col gap-2 mb-4">
             <button onclick="shareAllDocuments('mobility')" class="bg-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors">
               <i class="fas fa-share-alt mr-2"></i>
               <span data-i18n="Partager tous les documents">Partager tous les documents</span>
