@@ -9,19 +9,9 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/(?!.*\\.)(.*)",
       "dest": "index.html",
       "status": 200
-    },
-    {
-      "src": "/(?!.*\\.)",
-      "dest": "index.html",
-      "status": 200
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "$1",
-      "status": 404
     }
   ],
   "env": {
