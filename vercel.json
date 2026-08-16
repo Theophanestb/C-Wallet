@@ -1,5 +1,7 @@
 {
   "version": 2,
-  "name": "c-wallet",
-  "public": true
+  "projectSettings": {
+    "framework": null,
+    "sourceFilesOutsideRootDirectory": false
+  }
 }
