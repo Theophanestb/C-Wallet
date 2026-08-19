@@ -55,10 +55,6 @@
         overflow-x: hidden;
         padding-bottom: 3rem !important;
       }
-      img[src*="logo_Cecler"] {
-        border-radius: 0.75rem;
-        display: block;
-      }
       @media (max-width: 640px) {
         .max-w-md {
           max-width: 100%;
@@ -76,10 +72,10 @@
       <!-- Header -->
       <div class="max-w-md mx-auto">
         <div class="flex items-center justify-between gap-3 mb-8 mt-6">
-          <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer" class="overflow-hidden rounded-lg flex-shrink-0">
             <img src="./icons/logo_Cecler.jpeg"
                 alt="Logo CeCler"
-                class="h-12 w-24 sm:h-14 sm:w-28 object-contain rounded-2xl cursor-pointer flex-shrink-0" />
+                class="h-12 w-24 sm:h-14 sm:w-28 object-contain cursor-pointer" />
           </a>
           <h1 class="text-white text-sm sm:text-lg md:text-xl font-semibold flex-1 text-center px-2 leading-tight" data-i18n="Bienvenue dans votre CeCler-Wallet">Bienvenue dans CéCler-Wallet</h1>
           <div class="flex items-center space-x-3">
