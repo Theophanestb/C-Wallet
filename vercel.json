@@ -1,7 +1,4 @@
 {
   "version": 2,
-  "projectSettings": {
-    "framework": null,
-    "sourceFilesOutsideRootDirectory": false
-  }
+  "framework": null
 }
