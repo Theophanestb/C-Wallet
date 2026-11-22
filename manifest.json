@@ -1,6 +1,6 @@
 {
-  "name": "C-Wallet - Documents Personnels",
-  "short_name": "C-Wallet",
+  "name": "CeCler-Wallet - Documents Personnels",
+  "short_name": "CeCler-Wallet",
   "description": "Application de gestion de documents personnels - Stockage local sécurisé",
   "start_url": "./",
   "display": "standalone",

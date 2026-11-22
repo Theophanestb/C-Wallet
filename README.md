@@ -1,8 +1,8 @@
-# 📱 CéCler Wallet
+# 📱 CeCler-Wallet
 
 > Une portefeuille numérique sécurisée pour organiser et partager vos documents importants.
 
-CéCler Wallet est une application Progressive Web App (PWA) légère qui aide les utilisateurs à stocker, organiser et partager leurs documents personnels directement depuis leur navigateur ou leur écran d'accueil mobile.
+CeCler-Wallet est une application Progressive Web App (PWA) légère qui aide les utilisateurs à stocker, organiser et partager leurs documents personnels directement depuis leur navigateur ou leur écran d'accueil mobile.
 
 L'application est multilingue avec support pour le français, anglais, russe, arabe, tigrinya, dari et pachto.
 
@@ -204,7 +204,7 @@ Changez la langue en appuyant sur l'icône 🌐 en haut :
 Quand vous modifiez l'app, mettez à jour le cache dans `service-worker.js` :
 
 ```javascript
-const CACHE_NAME = 'c-wallet-v1.0.4'; // Incrémentez le numéro
+const CACHE_NAME = 'cecler-wallet-v1.0.5'; // Incrémentez le numéro
 ```
 
 Cela force les utilisateurs à recevoir la nouvelle version au lieu d'une copie en cache.

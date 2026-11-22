@@ -1,6 +1,6 @@
-# 📱 CéCler Wallet - Guide d'Installation
+# 📱 CeCler-Wallet - Guide d'Installation
 
-Installez l'app CéCler Wallet directement sur l'écran d'accueil de votre téléphone en quelques secondes.
+Installez l'app CeCler-Wallet directement sur l'écran d'accueil de votre téléphone en quelques secondes.
 
 ## ✨ Avantages de l'Installation
 

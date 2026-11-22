@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2563eb" />
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
+    <link rel="shortcut icon" href="./icons/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>CGU - CeCler-Wallet</title>
+    <style>
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+      html, body { width: 100%; overflow-x: hidden; }
+      body {
+        background: linear-gradient(135deg, #F39C12 0%, #F1C40F 50%, #D35400 100%);
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+      .cgu h2 { font-weight: 600; color: #1f2937; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+      .cgu p, .cgu li { color: #4b5563; line-height: 1.6; overflow-wrap: break-word; }
+      .cgu ul { list-style: disc; padding-left: 1.25rem; }
+      @media (max-width: 640px) {
+        body { font-size: 14px; }
+      }
+      @media (max-width: 374px) {
+        .cgu { padding: 1.25rem !important; }
+      }
+    </style>
+  </head>
+  <body class="text-gray-800">
+    <div class="min-h-screen p-4 pb-12">
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center mb-8 mt-6">
+          <a href="./index.html" class="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-4 flex-shrink-0" aria-label="Retour">
+            <i class="fas fa-arrow-left text-gray-600"></i>
+          </a>
+          <h1 class="text-white text-lg font-medium">Conditions générales d'utilisation</h1>
+        </div>
+
+        <div class="cgu bg-white rounded-xl p-6 mb-4 text-sm">
+          <h2 style="margin-top:0">1. Objet</h2>
+          <p>Les présentes conditions générales d'utilisation (CGU) encadrent l'utilisation de l'application CeCler-Wallet, proposée par CeCler. CeCler-Wallet permet de ranger, consulter et partager ses documents personnels (identité, santé, logement, CAF, ressources, banque, mobilité, impôts) depuis son téléphone.</p>
+
+          <h2>2. Accès et gratuité</h2>
+          <p>L'application est accessible gratuitement depuis un navigateur web ou après installation sur l'écran d'accueil. Aucun compte n'est nécessaire. L'accès peut être interrompu à tout moment, notamment pour maintenance.</p>
+
+          <h2>3. Stockage des documents</h2>
+          <ul>
+            <li>Les documents ajoutés sont enregistrés uniquement sur votre appareil, dans le stockage du navigateur.</li>
+            <li>Ils ne sont pas envoyés sur un serveur de CeCler.</li>
+            <li>Effacer les données du navigateur, désinstaller l'application ou changer de téléphone peut supprimer définitivement vos documents. Pensez à conserver vos originaux.</li>
+          </ul>
+
+          <h2>4. Partage</h2>
+          <p>Lorsque vous partagez un document, il est transmis par l'application de votre choix (messagerie, e-mail...). Vous êtes seul responsable des destinataires choisis et des documents partagés.</p>
+
+          <h2>5. Responsabilités de l'utilisateur</h2>
+          <p>Vous vous engagez à n'enregistrer que des documents vous appartenant ou que vous êtes autorisé à détenir, et à protéger l'accès à votre téléphone (code, empreinte...).</p>
+
+          <h2>6. Limitation de responsabilité</h2>
+          <p>CeCler-Wallet est un outil de rangement : il ne remplace pas les documents originaux et n'a pas de valeur officielle. CeCler ne peut être tenu responsable d'une perte de données liée à l'appareil ou au navigateur, ni d'un usage inapproprié des documents partagés.</p>
+
+          <h2>7. Données personnelles</h2>
+          <p>CeCler ne collecte pas le contenu de vos documents. Pour toute question, consultez <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer" class="underline text-blue-500">cecler.fr</a>.</p>
+
+          <h2>8. Modification des CGU</h2>
+          <p>CeCler peut modifier les présentes CGU à tout moment. La version en ligne est celle qui s'applique.</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-full text-center text-xs text-gray-400 mb-2 relative -top-8 px-4">
+      Source : <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-600">En savoir plus</a>
+      - <a href="./cgu.html" title="Conditions générales d'utilisation" class="underline text-blue-400 hover:text-blue-600">CGU</a>
+    </div>
+  </body>
+</html>

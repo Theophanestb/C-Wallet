@@ -1,4 +1,4 @@
-# 📱 CéCler Wallet - Résumé Complet
+# 📱 CeCler-Wallet - Résumé Complet
 
 ## ✅ Tout ce qui a été fait
 
@@ -38,8 +38,8 @@
 
 **Guide d'installation visuel :**
 - ✅ `README-INSTALLATION.md` - Guide texte simple (iPhone + Android)
-- ✅ `CéCler Wallet - Installation Guide` (artifact visuel)
-- ✅ `CéCler Wallet Quick Install` (artifact rapide)
+- ✅ `CeCler-Wallet - Installation Guide` (artifact visuel)
+- ✅ `CeCler-Wallet Quick Install` (artifact rapide)
 
 **Chaque guide inclut :**
 - Étapes pas-à-pas (3-5 clics)

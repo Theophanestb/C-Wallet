@@ -1244,7 +1244,7 @@ function installApp() {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
-        showNotification('C-wallet installé avec succès!', 'success');
+        showNotification('CeCler-Wallet installé avec succès!', 'success');
       }
       deferredPrompt = null;
       const installButton = document.getElementById('installButton');
@@ -1253,5 +1253,5 @@ function installApp() {
   }
 }
 window.addEventListener('appinstalled', () => {
-  showNotification('C-wallet installé! Cherchez l\'icône sur votre écran d\'accueil.', 'success');
+  showNotification('CeCler-Wallet installé! Cherchez l\'icône sur votre écran d\'accueil.', 'success');
 });

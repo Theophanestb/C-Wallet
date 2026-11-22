@@ -25,11 +25,11 @@
 **Solution**:
 ```html
 <!-- BEFORE -->
-<h1 class="text-white text-lg font-medium">Bienvenue dans CéCler-Wallet</h1>
+<h1 class="text-white text-lg font-medium">Bienvenue dans CeCler-Wallet</h1>
 
 <!-- AFTER -->
 <h1 class="text-white text-xs sm:text-lg font-medium flex-1 text-center px-2">
-  Bienvenue dans CéCler-Wallet
+  Bienvenue dans CeCler-Wallet
 </h1>
 ```
 - Small phones: `text-xs` (12px)

@@ -1,4 +1,4 @@
-# CéCler Wallet - Vercel Deployment Guide
+# CeCler-Wallet - Vercel Deployment Guide
 
 ## ✅ Changes Made
 

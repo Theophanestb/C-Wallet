@@ -9,7 +9,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png" />
     <link rel="shortcut icon" href="./icons/favicon.ico" />
-    <script defer src="app.js?v=20250730"></script>
+    <script defer src="app.js?v=20261122"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -18,9 +18,12 @@
       .category-card {
         transition: all 0.3s ease;
       }
-      .category-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      /* Effet de survol réservé aux appareils avec souris (évite l'effet "collé" au toucher sur mobile) */
+      @media (hover: hover) {
+        .category-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
       }
       .category-card:active {
         transform: translateY(0);
@@ -64,6 +67,77 @@
           font-size: 14px;
         }
       }
+
+      /* ===== Responsive mobile ===== */
+      html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+      }
+      /* Titre d'accueil : peut rétrécir et passer à la ligne au lieu de pousser le bouton de traduction */
+      #homePage h1 {
+        min-width: 0;
+        overflow-wrap: break-word;
+      }
+      /* Lignes de documents : le nom se tronque au lieu de faire déborder (et masquer) les boutons d'action */
+      [id^="doc-row-"] > .flex-1 {
+        min-width: 0;
+      }
+      [id^="doc-row-"] > .flex-1 p {
+        overflow-wrap: anywhere;
+      }
+      [id^="doc-row-"] > div:first-child,
+      [id^="doc-row-"] > .flex:last-child {
+        flex-shrink: 0;
+      }
+      /* Aperçus d'images/PDF : jamais plus larges que l'écran */
+      [id^="preview-"] img,
+      [id^="preview-"] iframe {
+        max-width: 100%;
+      }
+      [id^="preview-"] img {
+        height: auto;
+      }
+      /* Notifications : ne dépassent pas de l'écran */
+      .fixed.top-4.right-4 {
+        max-width: calc(100vw - 2rem);
+      }
+      /* Menu des langues : reste dans l'écran */
+      #langDropdown {
+        white-space: nowrap;
+      }
+      /* Pied de page */
+      #siteFooter {
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+
+      /* Petits téléphones (iPhone SE 1re gén., Galaxy compacts...) */
+      @media (max-width: 374px) {
+        #homePage > .max-w-md > .flex:first-child {
+          gap: 0.5rem;
+        }
+        #homePage > .max-w-md > .flex:first-child img {
+          width: 5rem;
+        }
+        #homePage h1 {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        [id^="doc-row-"] {
+          padding: 0.75rem !important;
+        }
+        [id^="doc-row-"] > div:first-child {
+          width: 2.5rem;
+          height: 2.5rem;
+          margin-right: 0.625rem;
+        }
+        [id^="doc-row-"] > .flex:last-child > * + * {
+          margin-left: 0.25rem !important;
+        }
+        .min-h-screen .bg-white.rounded-xl.p-6 {
+          padding: 1.25rem;
+        }
+      }
     </style>
   </head>
   <body class="text-gray-800">
@@ -77,7 +151,7 @@
                 alt="Logo CeCler"
                 class="w-24 sm:w-28 h-auto rounded-lg shadow-md cursor-pointer block" />
           </a>
-          <h1 class="text-white text-sm sm:text-lg md:text-xl font-semibold flex-1 text-center px-2 leading-tight" data-i18n="Bienvenue dans votre CeCler-Wallet">Bienvenue dans CéCler-Wallet</h1>
+          <h1 class="text-white text-sm sm:text-lg md:text-xl font-semibold flex-1 text-center px-2 leading-tight" data-i18n="Bienvenue dans CeCler-Wallet">Bienvenue dans CeCler-Wallet</h1>
           <div class="flex items-center space-x-3">
             
             <div class="relative">
@@ -495,8 +569,9 @@
         <div id="documentsListTaxes" class="space-y-3"></div>
       </div>
     </div>
-    <div class="w-full text-center text-xs text-gray-400 mb-2 relative -top-8">
-      Source : <a href="https://www.cecler.fr/ccwallet" target="_blank" class="underline text-blue-400 hover:text-blue-600">En savoir plus</a>
+    <div id="siteFooter" class="w-full text-center text-xs text-gray-400 mb-2 relative -top-8">
+      Source : <a href="https://www.cecler.fr/ccwallet" target="_blank" rel="noopener noreferrer" class="underline text-blue-400 hover:text-blue-600">En savoir plus</a>
+      - <a href="./cgu.html" title="Conditions générales d'utilisation" class="underline text-blue-400 hover:text-blue-600">CGU</a>
     </div>
 
     <script>
@@ -533,7 +608,7 @@
     <script>
       const translations = {
         en: {
-          "Bienvenue dans votre C-Wallet": "Welcome to your C-Wallet<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "Welcome to CeCler-Wallet<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "My ID / Mon identité",
           "Ma santé": "My Health / Ma santé",
           "Mon logement": "My Housing / Mon logement",
@@ -557,7 +632,7 @@
           "Partager les documents sélectionnés": "Share selected documents / Partager les documents sélectionnés"
         },
         ru: {
-          "Bienvenue dans votre C-Wallet": "Добро пожаловать в ваш C-Wallet<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "Добро пожаловать в CeCler-Wallet<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "Моя личность / Mon identité",
           "Ma santé": "Моё здоровье / Ma santé",
           "Mon logement": "Моё жильё / Mon logement",
@@ -581,7 +656,7 @@
           "Partager les documents sélectionnés": "Поделиться выбранными документами / Partager les documents sélectionnés"
         },
         ar: {
-          "Bienvenue dans votre C-Wallet": "مرحبًا بك في محفظتك الإلكترونية<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "مرحبًا بك في محفظتك الإلكترونية<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "هويتي / Mon identité",
           "Ma santé": "صحتي / Ma santé",
           "Mon logement": "سكني / Mon logement",
@@ -605,7 +680,7 @@
           "Partager les documents sélectionnés": "مشاركة المستندات المحددة / Partager les documents sélectionnés"
         },
         ti: {
-          "Bienvenue dans votre C-Wallet": "እንቋዕ ብደሓን መጻእኩም ናብ C-Wallet<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "እንቋዕ ብደሓን መጻእኩም ናብ CeCler-Wallet<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "ናይ ሓንቲ መለክዒ / Mon identité",
           "Ma santé": "ጥዕናይ / Ma santé",
           "Mon logement": "መኖርያይ / Mon logement",
@@ -629,7 +704,7 @@
           "Partager les documents sélectionnés": "ሓበሬታ ምስለን ዝምልከት / Partager les documents sélectionnés"
         },
         fa: { // Dari (فارسی)
-          "Bienvenue dans votre C-Wallet": "به C-Wallet خوش آمدید<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "به CeCler-Wallet خوش آمدید<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "هویت من / Mon identité",
           "Ma santé": "سلامتی من / Ma santé",
           "Mon logement": "محل سکونت من / Mon logement",
@@ -653,7 +728,7 @@
           "Partager les documents sélectionnés": "اشتراک‌گذاری اسناد انتخاب شده / Partager les documents sélectionnés"
         },
         ps: { // Pachto (پښتو)
-          "Bienvenue dans votre C-Wallet": "ستاسو C-Wallet ته ښه راغلاست<br/>Bienvenue dans votre C-Wallet",
+          "Bienvenue dans CeCler-Wallet": "ستاسو CeCler-Wallet ته ښه راغلاست<br/>Bienvenue dans CeCler-Wallet",
           "Mon identité": "زما پېژندنه / Mon identité",
           "Ma santé": "زما روغتیا / Ma santé",
           "Mon logement": "زما استوګنځی / Mon logement",
