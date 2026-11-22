@@ -2,7 +2,6 @@ const CACHE_NAME = 'cecler-wallet-v1.0.5';
 const STATIC_CACHE_URLS = [
   './',
   './index.html',
-  './cgu.html',
   './app.js',
   './manifest.json',
   'https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css',
